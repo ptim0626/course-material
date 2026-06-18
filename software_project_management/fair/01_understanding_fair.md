@@ -149,9 +149,9 @@ access is restricted.
 
 > - (meta)data are retrievable by their identifier using a standardized
 >   communications protocol
->     - the protocol is open, free, and universally implementable
->     - the protocol allows for an authentication and authorization procedure,
->       where necessary
+>   - the protocol is open, free, and universally implementable
+>   - the protocol allows for an authentication and authorization procedure,
+>     where necessary
 > - metadata are accessible, even when the data are no longer available
 
 #### What Accessible means
@@ -319,9 +319,9 @@ data.
 
 > - meta(data) are richly described with a plurality of accurate and relevant
 >   attributes
->     - (meta)data are released with a clear and accessible data usage license
->     - (meta)data are associated with detailed provenance
->     - (meta)data meet domain-relevant community standards
+>   - (meta)data are released with a clear and accessible data usage license
+>   - (meta)data are associated with detailed provenance
+>   - (meta)data meet domain-relevant community standards
 
 #### What Reusable means
 
@@ -347,11 +347,11 @@ your data for its suitability.
 
 - Be generous in providing information related to the data as something look
   unnecessary to you may be paramount to others, for examples:
-    - descriptive metadata such as what data was collected, its rationale and
-      any access restriction,
-    - structural metadata such as the relationship among the data,
-    - technical metadata such as the file format (e.g. the version of a
-      standardised file format)
+  - descriptive metadata such as what data was collected, its rationale and
+    any access restriction,
+  - structural metadata such as the relationship among the data,
+  - technical metadata such as the file format (e.g. the version of a
+    standardised file format)
 - Choose a well-established licence with a standardised identifier.
 - Include basic provenance information such as the researchers (e.g. by
   persistent identifiers) and funding sources (e.g. by grant numbers).

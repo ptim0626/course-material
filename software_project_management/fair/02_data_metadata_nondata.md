@@ -35,6 +35,8 @@ employ the following definitions of data:
 > 'recorded factual material ... as necessary to validate research' (200.315
 > Intangible property, Code of Federal Regulations, US Federal Government)
 
+<!-- Make markdownlint happy about consecutive quote blocks -->
+
 > everything that is 'linked to the workflow of knowledge creation' (Gualandi
 > B, Pareschi L, Peroni S (2023))
 
@@ -50,6 +52,7 @@ might count as 'data' in the project?
 ::::
 
 :::solution
+
 - Date and time of sighting
 - Location records (e.g. GPS information from tracking devices)
 - Species identification
@@ -119,6 +122,7 @@ Even an informal and lightweight DMP is valuable, it helps you:
 - to clarify the research project by systematically working out the entire
   workflow
 - to plan for FAIR compliance early
+
 :::
 
 ## Metadata
