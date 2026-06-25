@@ -43,7 +43,7 @@ The third protein has no marker, and as such we are blind to it.
 
 The reason for the oscillation is a feedback circuit called the "repressilator" (detailed in the paper in the `docs/` folder).
 Three proteins take turns suppressing each other's production in a cycle — protein A suppresses B, B suppresses C, and C suppresses A — which under certain conditions causes the amounts of each protein to oscillate rhythmically.
-The dynamics of this oscillation can be modelled using an [ordinary differential equation]([scientific_computing]/[essential_maths]/[09_differential_equations_1]).
+The dynamics of this oscillation can be modelled using an [ordinary differential equation](scientific_computing/essential_maths/09_differential_equations_1).
 The parameters for this equation (for example, the half-life of a protein), and the form of the differential equations, can be found in the docs folder.
 
 Each cell circuit has slightly different parameter values. You are tasked with recovering the values of these parameters for a subset of the cell images. An LLM has been used to create an analysis pipeline, but it is not capable of achieving this aim. You are tasked with fixing the implementation. You can assess the success of this implementation by using the tests in the `tests/` folder.
