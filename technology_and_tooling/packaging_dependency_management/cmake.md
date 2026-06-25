@@ -593,5 +593,5 @@ cmake -DWARNINGS_AS_ERRORS=OFF ..
 This was only the tiniest tip of the modern CMake iceberg. There are so many great resources available, and here are just a few of them:
 
 - [The CMake documentation (link)](https://cmake.org/cmake/help/latest/)
-- [An Introduction to Modern CMake](https://cliutils.gitlab.io/modern-cmake/README.html)
+- [An Introduction to Modern CMake](https://cliutils.gitlab.io/modern-cmake/)
 - [CMake basics, how does one write a good CMake project?](https://www.siliceum.com/en/blog/post/cmake_01_cmake-basics)

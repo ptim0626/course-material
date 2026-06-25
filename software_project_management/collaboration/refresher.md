@@ -224,7 +224,7 @@ You can have more than one remote configured for your local repository, each of 
 Collaborating with others involves managing these remote repositories and pushing and pulling information to and from them when you need to share work.
 
 ![git-distributed](fig/git-distributed.png)
-_Git - distributed version control system, from (<https://www.w3docs.com/learn-git/git-repository.html>) (freely available)_
+_Git - distributed version control system, from (<https://www.w3docs.com/learn-git>) (freely available)_
 
 :::
 
