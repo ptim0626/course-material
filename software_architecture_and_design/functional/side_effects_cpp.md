@@ -1,8 +1,16 @@
---
+---
 name: State and Side Effects
-dependsOn: [
-]
+dependsOn: []
 tags: [cpp]
+attribution:
+  - citation: This material was adapted from an "Introduction to C++" course developed by the Oxford RSE group.
+    url: https://www.rse.ox.ac.uk
+    image: https://www.rse.ox.ac.uk/sites/default/files/styles/listing_tile_text_displayed_image/public/rse/images/media/oxrse_banner_2.png
+    license: CC-BY-4.0
+  - citation: This course material was developed as part of UNIVERSE-HPC, which is funded through the SPF ExCALIBUR programme under grant number EP/W035731/1
+    url: https://www.universe-hpc.ac.uk
+    image: https://www.universe-hpc.ac.uk/assets/images/universe-hpc.png
+    license: CC-BY-4.0
 ---
 
 ## Program state
@@ -67,7 +75,7 @@ std::getline(myfile, line); // Same call to getline, but result is different!
 ```
 
 The main downside of having a state that is constantly updated is that it makes
-it harder for us to *reason* about our code, to work out what it is doing.
+it harder for us to _reason_ about our code, to work out what it is doing.
 However, the main upside is that we can use state to make calculations more
 efficient, for example to sum up the values in a vector we use a single variable
 `sum` to hold the state of the computation
@@ -85,15 +93,15 @@ for (const auto& x: data) {
 Functional computations only rely on the values that are provided as inputs to a
 function and not on the state of the program that precedes the function call.
 They do not modify data that exists outside the current function, including the
-input data - this property is referred to as the *immutability of data*. This
-means that such functions do not create any *side effects*, i.e. do not perform
+input data - this property is referred to as the _immutability of data_. This
+means that such functions do not create any _side effects_, i.e. do not perform
 any action that affects anything other than the value they return. A pure function is therefore the
 computational version of a mathematical function.
 
 For example: printing text, writing to a file, modifying the value of an input argument, or
-changing the value of a global variable. Functions without side affects that
+changing the value of a global variable. Functions without side effects that
 return the same data each time the same input arguments are provided are called
-*pure functions*.
+_pure functions_.
 
 ::::challenge{id="pure-functions" title="Pure Functions"}
 
@@ -120,6 +128,7 @@ void increment_x(int& x) {
 ```
 
 :::solution
+
 ```cpp
 // a pure function, no side effects :)
 int increment_and_return_x(const int& x) {
@@ -147,6 +156,7 @@ void increment_x(int& x) {
   x += one;
 }
 ```
+
 :::
 ::::
 
@@ -154,11 +164,12 @@ void increment_x(int& x) {
 
 Conway's Game of Life is a popular cellular automaton that simulates the
 evolution of a two-dimensional grid of cells. In this exercise, you will
-refactor a Python program that implements Conway's Game of Life. The basic rules of the game of life are:
+refactor a C++ program that implements Conway's Game of Life. The basic rules of the game of life are:
 
-1. Any live cell with fewer than two live neighbors dies, as if caused by underpopulation.
-2. Any live cell with two or three live neighbors lives on to the next generation.
-3. Any live cell with more than three live neighbors dies, as if by overpopulation.
+1. Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.
+1. Any live cell with two or three live neighbours lives on to the next generation.
+1. Any live cell with more than three live neighbours dies, as if by overpopulation.
+1. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
 The code has a bug related to the improper management of the program
 state, which you will fix. Refactor the code so that the `step`
@@ -167,6 +178,26 @@ function is a pure function.
 ```cpp
 #include <iostream>
 #include <vector>
+#include <cassert>
+
+std::vector<int> get_neighbours(const std::vector<std::vector<int>>& grid, int i, int j) {
+    int rows = grid.size();
+    int cols = grid[0].size();
+    std::vector<std::pair<int, int>> indices = {{i - 1, j - 1}, {i - 1, j}, {i - 1, j + 1},
+                                                {i, j - 1},                 {i, j + 1},
+                                                {i + 1, j - 1}, {i + 1, j}, {i + 1, j + 1}};
+    std::vector<int> neighbours;
+
+    for (const auto& idx : indices) {
+        int row = idx.first;
+        int col = idx.second;
+        if (row >= 0 && row < rows && col >= 0 && col < cols) {
+            neighbours.push_back(grid[row][col]);
+        }
+    }
+
+    return neighbours;
+}
 
 void step(std::vector<std::vector<int>>& grid) {
     int rows = grid.size();
@@ -174,15 +205,16 @@ void step(std::vector<std::vector<int>>& grid) {
 
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            std::vector<int> neighbors = get_neighbors(grid, i, j);
+            std::vector<int> neighbours = get_neighbours(grid, i, j);
             int count = 0;
-            for (int neighbor : neighbors) {
-                count += neighbor;
+            for (int neighbour : neighbours) {
+                count += neighbour;
             }
-            if (grid[i][j] == 1) {
-                if (count == 2 || count == 3) {
-                    grid[i][j] = 1;
-                }
+            // cells are unaffected unless they:
+            // - die of under- or overpopulation, or
+            // - become alive if they have exactly three neighbours
+            if (count < 2 || count > 3) {
+                grid[i][j] = 0;
             } else if (count == 3) {
                 grid[i][j] = 1;
             }
@@ -190,31 +222,15 @@ void step(std::vector<std::vector<int>>& grid) {
     }
 }
 
-std::vector<int> get_neighbors(const std::vector<std::vector<int>>& grid, int i, int j) {
-    int rows = grid.size();
-    int cols = grid[0].size();
-    std::vector<std::pair<int, int>> indices = {{i - 1, j - 1}, {i - 1, j}, {i - 1, j + 1},
-                                                {i, j - 1},                 {i, j + 1},
-                                                {i + 1, j - 1}, {i + 1, j}, {i + 1, j + 1}};
-    std::vector<int> neighbors;
-
-    for (const auto& idx : indices) {
-        int row = idx.first;
-        int col = idx.second;
-        if (row >= 0 && row < rows && col >= 0 && col < cols) {
-            neighbors.push_back(grid[row][col]);
-        }
-    }
-
-    return neighbors;
-}
-
 int main() {
-    std::vector<std::vector<int>> grid = {{0, 0, 0, 0, 0},
-                                          {0, 0, 1, 0, 0},
-                                          {0, 1, 0, 1, 0},
-                                          {0, 0, 1, 0, 0},
-                                          {0, 0, 0, 0, 0}};
+
+    std::vector<std::vector<int>> grid = 
+        {{0, 0, 0, 0, 0},
+         {0, 0, 1, 0, 0},
+         {0, 1, 1, 1, 0},
+         {0, 0, 1, 0, 0},
+         {0, 0, 0, 0, 0}};
+
     step(grid);
 
     // Print the grid
@@ -224,6 +240,15 @@ int main() {
         }
         std::cout << std::endl;
     }
+
+    // our grid should show a square pattern, but doesn't
+    std::vector<std::vector<int>> expected_grid = 
+        {{0, 0, 0, 0, 0},
+         {0, 1, 1, 1, 0},
+         {0, 1, 0, 1, 0},
+         {0, 1, 1, 1, 0},
+         {0, 0, 0, 0, 0}};
+    assert(grid == expected_grid);
 
     return 0;
 }
@@ -245,6 +270,26 @@ easily, we should strive for purity.
 ```cpp
 #include <iostream>
 #include <vector>
+#include <cassert>
+
+std::vector<int> get_neighbours(const std::vector<std::vector<int>>& grid, int i, int j) {
+    int rows = grid.size();
+    int cols = grid[0].size();
+    std::vector<std::pair<int, int>> indices = {{i - 1, j - 1}, {i - 1, j}, {i - 1, j + 1},
+                                                {i, j - 1},                {i, j + 1},
+                                                {i + 1, j - 1}, {i + 1, j}, {i + 1, j + 1}};
+    std::vector<int> neighbours;
+
+    for (const auto& idx : indices) {
+        int row = idx.first;
+        int col = idx.second;
+        if (row >= 0 && row < rows && col >= 0 && col < cols) {
+            neighbours.push_back(grid[row][col]);
+        }
+    }
+
+    return neighbours;
+}
 
 std::vector<std::vector<int>> step(const std::vector<std::vector<int>>& grid) {
     int rows = grid.size();
@@ -253,14 +298,15 @@ std::vector<std::vector<int>> step(const std::vector<std::vector<int>>& grid) {
 
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            std::vector<int> neighbors = get_neighbors(grid, i, j);
+            std::vector<int> neighbours = get_neighbours(grid, i, j);
             int count = 0;
-            for (int neighbor : neighbors) {
-                count += neighbor;
+            for (int neighbour : neighbours) {
+                count += neighbour;
             }
-            if (grid[i][j] == 1 && (count == 2 || count == 3)) {
-                new_grid[i][j] = 1;
-            } else if (grid[i][j] == 0 && count == 3) {
+            // all cells in the new grid are zeros, except:
+            // - cells with two neighbours, that survive if they were already alive, or
+            // - cells with three neighbours, that either survive or become alive
+            if ((count == 2 && grid[i][j] == 1) || count == 3) {
                 new_grid[i][j] = 1;
             }
         }
@@ -269,60 +315,40 @@ std::vector<std::vector<int>> step(const std::vector<std::vector<int>>& grid) {
     return new_grid;
 }
 
-std::vector<int> get_neighbors(const std::vector<std::vector<int>>& grid, int i, int j) {
-    int rows = grid.size();
-    int cols = grid[0].size();
-    std::vector<std::pair<int, int>> indices = {{i - 1, j - 1}, {i - 1, j}, {i - 1, j + 1},
-                                                {i, j - 1},                {i, j + 1},
-                                                {i + 1, j - 1}, {i + 1, j}, {i + 1, j + 1}};
-    std::vector<int> neighbors;
-
-    for (const auto& idx : indices) {
-        int row = idx.first;
-        int col = idx.second;
-        if (row >= 0 && row < rows && col >= 0 && col < cols) {
-            neighbors.push_back(grid[row][col]);
-        }
-    }
-
-    return neighbors;
-}
-
 int main() {
-    std::vector<std::vector<int>> grid = {{0, 0, 0, 0, 0},
-                                          {0, 0, 1, 0, 0},
-                                          {0, 1, 0, 1, 0},
-                                          {0, 0, 1, 0, 0},
-                                          {0, 0, 0, 0, 0}};
+
+    std::vector<std::vector<int>> grid = 
+        {{0, 0, 0, 0, 0},
+         {0, 0, 1, 0, 0},
+         {0, 1, 1, 1, 0},
+         {0, 0, 1, 0, 0},
+         {0, 0, 0, 0, 0}};
+
     std::vector<std::vector<int>> new_grid = step(grid);
 
-    // Check if the grid is unchanged
-    bool unchanged = true;
-    for (size_t i = 0; i < grid.size(); ++i) {
-        for (size_t j = 0; j < grid[0].size(); ++j) {
-            if (grid[i][j] != new_grid[i][j]) {
-                unchanged = false;
-                break;
-            }
+    // Print the new grid
+    for (const auto& row : new_grid) {
+        for (int cell : row) {
+            std::cout << cell << " ";
         }
-        if (!unchanged) {
-            break;
-        }
+        std::cout << std::endl;
     }
-    if (unchanged) {
-        std::cout << "Grid is unchanged" << std::endl;
-    } else {
-        std::cout << "Grid has changed" << std::endl;
-    }
+
+    std::vector<std::vector<int>> expected_grid = 
+        {{0, 0, 0, 0, 0},
+         {0, 1, 1, 1, 0},
+         {0, 1, 0, 1, 0},
+         {0, 1, 1, 1, 0},
+         {0, 0, 0, 0, 0}};
+
+    assert(new_grid == expected_grid);
 
     return 0;
 }
 ```
+
 :::
 ::::
-
-
-
 
 ## Benefits of Functional Code
 
@@ -343,30 +369,30 @@ will be, or how to measure them.
 
 **Composability** refers to the ability to make a new function from a chain of
 other functions by piping the output of one as the input to the next. If a
-function does not  have side effects or non-deterministic behaviour, then all
+function does not have side effects or non-deterministic behaviour, then all
 of its behaviour is reflected in the value it returns. As a consequence of
 this, any chain of combined pure functions is itself pure, so we keep all these
 benefits when we are combining functions into a larger program.
 
 **Parallelisability** is the ability for operations to be performed at the same
-*time (independently). If we know that a function is fully pure and we have got
-*a lot of data, we can often improve performance by splitting data and
-*distributing the computation across multiple processors. The output of a pure
-*function depends only on its input, so we will get the right result regardless
-*of when or where the code runs.
+time (independently). If we know that a function is fully pure and we have got
+a lot of data, we can often improve performance by splitting data and
+distributing the computation across multiple processors. The output of a pure
+function depends only on its input, so we will get the right result regardless
+of when or where the code runs.
 
 There are other advantageous properties that can be derived from the functional
 approach to coding. In languages which support functional programming, a
-function is a *first-class object* like any other object - not only can you
+function is a _first-class object_ like any other object - not only can you
 compose/chain functions together, but functions can be used as inputs to, passed
 around or returned as results from other functions (remember, in functional
-programming *code is data*). This is why functional programming is suitable for
+programming _code is data_). This is why functional programming is suitable for
 processing data efficiently - in particular in the world of Big Data, where code
 is much smaller than the data, sending the code to where data is located is
 cheaper and faster than the other way round. Let's see how we can do data
 processing using functional programming.
 
-## Key Points:
+## Key Points
 
 - Program state is composed of variables' values, including those modified by functions and interactions with the Operating System.
 - Functional computations rely only on input values, are immutable, and do not create side effects. Pure functions are testable, composable, and parallelizable.

@@ -11,10 +11,24 @@ files: [
     05-script.md,
     06-loop.md
 ]
+learningOutcomes:
+    - Navigate the file system using absolute and relative paths.
+    - Modify shell command behavior with options and arguments.
+    - Create and manage directory hierarchies.
+    - Combine commands to generate new outputs.
+    - Redirect command outputs to files.
+    - Write and execute shell scripts.
 summary: |
     The Bash shell is a command-line interface used in Unix-based operating systems
     such as Linux and macOS. This course will introduce you to the basics of using
     the Bash shell.
+attribution: 
+    - citation: This course material was developed as part of UNIVERSE-HPC, which is funded through the SPF ExCALIBUR programme under grant number EP/W035731/1 
+      url: https://www.universe-hpc.ac.uk
+      image: https://www.universe-hpc.ac.uk/assets/images/universe-hpc.png
+      license: CC-BY-4.0
+
+
 ---
 
 

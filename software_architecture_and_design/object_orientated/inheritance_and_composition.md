@@ -1,9 +1,20 @@
 ---
 name: Inheritance and Composition
-dependsOn: [
-    software_architecture_and_design.object_orientated.classes,
-]
+dependsOn: [software_architecture_and_design.object_orientated.classes]
 tags: [python]
+learningOutcomes:
+  - Define composition in relation to a class.
+  - Define inhertitance in relation to a class.
+  - Explain the different between composition and inheritance.
+attribution:
+  - citation: This material has been adapted from the "Software Engineering" module of the SABS R³ Center for Doctoral Training.
+    url: https://www.sabsr3.ox.ac.uk
+    image: https://www.sabsr3.ox.ac.uk/sites/default/files/styles/site_logo/public/styles/site_logo/public/sabsr3/site-logo/sabs_r3_cdt_logo_v3_111x109.png
+    license: CC-BY-4.0
+  - citation: This course material was developed as part of UNIVERSE-HPC, which is funded through the SPF ExCALIBUR programme under grant number EP/W035731/1
+    url: https://www.universe-hpc.ac.uk
+    image: https://www.universe-hpc.ac.uk/assets/images/universe-hpc.png
+    license: CC-BY-4.0
 ---
 
 ## Relationships Between Classes
@@ -18,17 +29,16 @@ There are two fundamental types of relationship between objects which we need to
 
 ### Composition
 
-You should hopefully have come across the term **composition** already - in the novice Software Carpentry, we use composition of functions to reduce code duplication.
-That time, we used a function which converted temperatures in Celsius to Kelvin as a **component** of another function which converted temperatures in Fahrenheit to Kelvin.
+In the real world, when something is composed of something else, there exists a relationship where one thing is made up of other things.
+In the same way, in object oriented programming, we can make classes which have components from other classes.
+This is known as **composition**.
 
-In the same way, in object oriented programming, we can make things components of other things.
-
-We often use composition where we can say 'x *has a* y' - for example in our inflammation project, we might want to say that a doctor *has* patients or that a patient *has* observations.
+We often use composition in circumstances where we can say 'x _has a_ y' - for example in our inflammation project, we might want to say that a doctor _has_ patients or that a patient _has_ observations.
 
 In the case of our example, we're already saying that patients have observations, so we're already using composition here.
-We're currently implementing an observation as a dictionary with a known set of keys though, so maybe we should make an `Observation` class as well.
+We're currently implementing an observation as a dictionary with a known set of keys though, so we could make an `Observation` class as well.
 
-~~~ python
+```python
 # file: inflammation/models.py
 
 class Observation:
@@ -66,19 +76,19 @@ alice = Patient('Alice')
 obs = alice.add_observation(3)
 
 print(obs)
-~~~
+```
 
-~~~
+```text
 3
-~~~
+```
 
 Now we're using a composition of two custom classes to describe the relationship between two types of entity in the system that we're modelling.
 
 ### Inheritance
 
 The other type of relationship used in object oriented programming is **inheritance**.
-Inheritance is about data and behaviour shared by classes, because they have some shared identity - 'x *is a* y'.
-If class `X` inherits from (*is a*) class `Y`, we say that `Y` is the **superclass** or **parent class** of `X`, or `X` is a **subclass** of `Y`.
+Inheritance is about data and behaviour shared by classes, because they have some shared identity - 'x _is a_ y'.
+If class `X` inherits from (_is a_) class `Y`, we say that `Y` is the **superclass** or **parent class** of `X`, or `X` is a **subclass** of `Y`.
 
 If we want to extend the previous example to also manage people who aren't patients we can add another class `Person`.
 But `Person` will share some data and behaviour with `Patient` - in this case both have a name and show that name when you print them.
@@ -87,7 +97,7 @@ Since we expect all patients to be people (hopefully!), it makes sense to implem
 To write our class in Python, we used the `class` keyword, the name of the class, and then a block of the functions that belong to it.
 If the class **inherits** from another class, we include the parent class name in brackets.
 
-~~~ python
+```python
 # file: inflammation/models.py
 
 class Observation:
@@ -135,14 +145,14 @@ print(bob)
 
 obs = bob.add_observation(4)
 print(obs)
-~~~
+```
 
-~~~
+```text
 Alice
 3
 Bob
 AttributeError: 'Person' object has no attribute 'add_observation'
-~~~
+```
 
 As expected, an error is thrown because we cannot add an observation to `bob`, who is a Person but not a Patient.
 
@@ -157,13 +167,38 @@ The order in which it does this search is known as the **method resolution order
 The line `super().__init__(name)` gets the parent class, then calls the `__init__` method, providing the `name` variable that `Person.__init__` requires.
 This is quite a common pattern, particularly for `__init__` methods, where we need to make sure an object is initialised as a valid `X`, before we can initialise it as a valid `Y` - e.g. a valid `Person` must have a name, before we can properly initialise a `Patient` model with their inflammation data.
 
+#### Mixin Classes
+
+A **mixin** is a class that provides methods to other classes, but is not considered a base class itself.
+Essentially, the class is designed purely to be used in composition with other classes, rather than to be instantiated on its own.
+If you have repeated functionality that you want to share across multiple classes, you can define it in a mixin class and then include that mixin in the classes that need it.
+This is especially useful in languages, like Python or C++, that support multiple inheritance.
+
+For example, one way we could add a shared method to print the name of a person would be to create a `NameMixin` class:
+
+```python
+class NameMixin:
+    def __str__(self):
+        return self.name
+```
+
+This could be used in an alternative `Patient` class, as well as any other class that has a `name` attribute.
+
+```python
+class PatientWithMixin(NameMixin):
+    def __init__(self, name):
+        self.name = name
+    # No need to redefine __str__ here, it will use the mixin's method
+```
+
+Obviously, this is a very simple example, but it shows how mixins can be used to share functionality without needing to create a complex inheritance hierarchy by allowing you to mix and match functionality as needed.
 
 ## Composition vs Inheritance
 
 When deciding how to implement a model of a particular system, you often have a choice of either composition or inheritance, where there is no obviously correct choice.
-For example, it's not obvious whether a photocopier *is a* printer and *is a* scanner, or *has a* printer and *has a* scanner.
+For example, it's not obvious whether a photocopier _is a_ printer and _is a_ scanner, or _has a_ printer and _has a_ scanner.
 
-~~~ python
+```python
 class Machine:
     pass
 
@@ -176,9 +211,9 @@ class Scanner(Machine):
 class Copier(Printer, Scanner):
     # Copier `is a` Printer and `is a` Scanner
     pass
-~~~
+```
 
-~~~ python
+```python
 class Machine:
     pass
 
@@ -193,7 +228,7 @@ class Copier(Machine):
         # Copier `has a` Printer and `has a` Scanner
         self.printer = Printer()
         self.scanner = Scanner()
-~~~
+```
 
 Both of these would be perfectly valid models and would work for most purposes.
 However, unless there's something about how you need to use the model which would benefit from using a model based on inheritance, it's usually recommended to opt for **composition over inheritance**.
@@ -208,33 +243,30 @@ It exists in Python, but is often not present in other Object Oriented languages
 Although this might seem useful, like in our inheritance-based model of the photocopier above, it's best to avoid it unless you're sure it's the right thing to do, due to the complexity of the inheritance heirarchy.
 Often using multiple inheritance is a sign you should instead be using composition - again like the photocopier model above.
 
-
 ::::challenge{id="a-model-patient" title="A Model Patient"}
 
-Above we gave an example of a `Patient` class which inherits from `Person`. Let's can start with extending the system such that there must be a `Doctor` class to hold the data representing a single doctor, which:
-  - must have a `name` attribute
-  - must have a list of patients that this doctor is responsible for.
+Above we gave an example of a `Patient` class which inherits from `Person`.
+Let's start by extending the system such that there must be a `Doctor` class to hold the data representing a single doctor, which:
 
-In addition to these, try to think of an extra feature you could add to the
-models which would be useful for managing a dataset like this - imagine we're
-running a clinical trial, what else might we want to know?  Try using Test
-Driven Development for any features you add: write the tests first, then add the
-feature.
+- must have a `name` attribute
+- must have a list of patients that this doctor is responsible for.
 
-Once you've finished the initial implementation, do you have much duplicated
-code?  Is there anywhere you could make better use of composition or inheritance
-to improve your implementation?
+In addition to these, try to think of an extra feature you could add to the models which would be useful for managing a dataset like this - imagine we're running a clinical trial, what else might we want to know?
+If you are comfortable with the concepts of software testing [taught in our corresponding course on testing](/technology_and_tooling/testing), you could try using `Test Driven Development` for the features you are going to add: write the tests first, then add the feature.
 
-For any extra features you've added, explain them and how you implemented them
-to your neighbour.  Would they have implemented that feature in the same way?
+Once you've finished the initial implementation, do you have much duplicated code?
+Is there anywhere you could make better use of composition or inheritance to improve your implementation?
+
+For any extra features you've added, explain them and how you implemented them to your neighbour.
+Would they have implemented that feature in the same way?
 
 :::solution
-One example solution is shown below. You may start by writing some tests (that will initially fail), and then 
-develop the code to satisfy the new requirements and pass the tests.
+One example solution is shown below.
+You may start by writing some tests (that will initially fail), and then develop the code to satisfy the new requirements and pass the tests.
 
-~~~ python
-# file: tests/test_patient.py   
-"""Tests for the Patient model."""    
+```python
+# file: tests/test_patient.py
+"""Tests for the Patient model."""
 
 def test_create_patient():
     """Check a patient is created correctly given a name."""
@@ -278,13 +310,11 @@ def test_no_duplicate_patients():
     alice = Patient("Alice")
     doc.add_patient(alice)
     doc.add_patient(alice)
-    assert len(doc.patients) == 1   
-...
-~~~    
+    assert len(doc.patients) == 1
+```
 
-~~~ python
+```python
 # file: inflammation/models.py
-...
 class Person:
     """A person."""
     def __init__(self, name):
@@ -307,7 +337,7 @@ class Patient(Person):
                 day = 0
         new_observation = Observation(day, value)
         self.observations.append(new_observation)
-      return new_observation
+        return new_observation
 
 class Doctor(Person):
     """A doctor in an inflammation study."""
@@ -322,10 +352,15 @@ class Doctor(Person):
             if patient.name == new_patient.name:
                 return
         self.patients.append(new_patient)
-...
-~~~    
+```
+
 :::
 ::::
 
-## Key Points:
-- Relationships between concepts can be described using inheritance (*is a*) and composition (*has a*).
+::::callout{variant="keypoints"}
+
+- Relationships between concepts can be described using inheritance (_is a_) and composition (_has a_).
+- Inheritance is used to describe a relationship where one class is a more specific version of another.
+- Composition is used to describe a relationship where one class is made up of other classes.
+
+::::

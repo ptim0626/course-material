@@ -1,8 +1,6 @@
 ---
 name: Introduction to CMake
-dependsOn: [
-  technology_and_tooling.ide.cpp
-]
+dependsOn: [technology_and_tooling.ide.cpp]
 tags: [cpp]
 attribution: 
     - citation: >
@@ -15,13 +13,13 @@ attribution:
 
 ### Course materials
 
-Clone the material repository and change your current working directory to the project 
+Clone the material repository and change your current working directory to the project
 root:
 
-~~~bash
+```bash
 git clone https://github.com/OxfordRSE/IntroCMakeCourse
 cd IntroCMakeCourse
-~~~
+```
 
 ## What is CMake and why should I use it?
 
@@ -414,7 +412,7 @@ library target, or a test target, or a custom target that runs a script.
 ### Target properties
 
 CMake allows for a very fine-grained control of target builds, through
-*properties*.
+_properties_.
 
 For example, the property `INCLUDE_DIRECTORIES` specifies the list of
 directories to be specified with the compiler switch `-I` (or `/I`).
@@ -429,8 +427,7 @@ target_include_directories(main_executable
 )
 ```
 
-*Properties are different from variables!*
-
+_Properties are different from variables!_
 
 ### Creating a library target
 
@@ -486,14 +483,18 @@ target_link_libraries(another_target INTERFACE my_lib)
 Target properties are paired with another property
 `INTERFACE_<PROPERTY>`. For instance
 
-    INTERFACE_INCLUDE_DIRECTORIES
+```cmake
+INTERFACE_INCLUDE_DIRECTORIES
+```
 
 These properties are inherited by depending targets (such as
 executables and other libraries).
 
 Example:
 
-    target_include_directories(my_lib INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+```cmake
+target_include_directories(my_lib INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+```
 
 -   `PRIVATE`: sets `INCLUDE_DIRECTORIES`.
 -   `INTERFACE`: sets `INTERFACE_INCLUDE_DIRECTORIES`.
@@ -504,7 +505,7 @@ Example:
 
 Let's separate the functionality from the executable itself:
 
-```bash
+```text
 CMakeLists.txt
 src/
     <library>
@@ -537,7 +538,8 @@ done with the `message()` command:
 set(name "Jane Doe")
 message(STATUS "Hello ${name}")
 ```
-```
+
+```text
 -- The C compiler identification is GNU 8.3.0
 ...
 -- Hello Jane Doe
@@ -557,7 +559,8 @@ depending on the situation.
 ```cmake
 message(SEND_ERROR "An error occurred but configure step continues")
 ```
-```
+
+```text
 CMake Error at CMakeLists.txt:2 (message):
     An error occurred but configure step continues
 
@@ -595,13 +598,13 @@ This is usually given by the library vendor.
 ::::challenge{id=adding-eigen-dep title="Adding the Eigen dependency"} 
 
 Look at Checkpoint 3. A new file `src/functionality_eigen.cpp` depends on the
-[Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) library for linear
+[Eigen](https://libeigen.gitlab.io/) library for linear
 algebra.
 
 Task: Using `find_package`, modify the `CMakeLists.txt` in directory `src/` to
 link target `cmake_course_lib` against Eigen.
 
-*Hint: Useful instructions can be found at [Using Eigen in CMake Projects](http://eigen.tuxfamily.org/dox/TopicCMakeGuide.html).*
+_Hint: Useful instructions can be found at [Using Eigen in CMake Projects](https://libeigen.gitlab.io/eigen/docs-5.0/TopicCMakeGuide.html)._
 
 Note that keyword `NO_MODULE` is equivalent to `CONFIG`.
 
@@ -716,7 +719,7 @@ set(name "Jane Doe")
 message(STATUS "Hello ${name}")
 ```
 
-```
+```text
 -- Hello Jane Doe
 -- Hello Foo Bar
 -- Configuring done
@@ -768,8 +771,7 @@ Functions cannot return a value.
 
 Functions introduce a new scope.
 
-A similar notion is CMake *macros*, which does **not** introduce a new scope.
-
+A similar notion is CMake _macros_, which does **not** introduce a new scope.
 
 ## Setting options with `option()`
 
@@ -792,7 +794,7 @@ the file `CMakeCache.txt` in the build directory.
 
 ## Built-in CMake variables
 
-CMake provides *a lot* of pre-defined variables which values describe the system.
+CMake provides _a lot_ of pre-defined variables which values describe the system.
 
 For instance, the value of `CMAKE_CXX_COMPILER_ID` can be queried
 to determine which C++ compiler is used.
@@ -841,6 +843,7 @@ Do you get a compiler warning? An error? Try configuring `WARNINGS_AS_ERRORS` an
 ```bash
 cmake -DWARNINGS_AS_ERRORS=ON ..
 ```
+
 ```bash
 cmake -DWARNINGS_AS_ERRORS=OFF ..
 ```
@@ -853,4 +856,5 @@ cmake -DWARNINGS_AS_ERRORS=OFF ..
 This was only the tiniest tip of the modern CMake iceberg. There are so many great resources available, and here are just a few of them:
 
 - [The CMake documentation (link)](https://cmake.org/cmake/help/latest/)
-- [Professional CMake: A Practical Guide (link)](https://crascit.com/professional-cmake/)
+- [An Introduction to Modern CMake](https://cliutils.gitlab.io/modern-cmake/)
+- [CMake basics, how does one write a good CMake project?](https://www.siliceum.com/en/blog/post/cmake_01_cmake-basics)

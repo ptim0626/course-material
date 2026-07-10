@@ -2,11 +2,14 @@
 name: Why Use a Cluster?
 dependsOn: []
 tags: []
+learningOutcomes:
+  - Describe what an HPC system is.
+  - Identify how an HPC system could benefit you.
 attribution: 
     - citation: >
         "Introduction to High-Performance Computing" course by the HPC-carpentries
       url: https://carpentries-incubator.github.io/hpc-intro/
-      image: https://carpentries-incubator.github.io/hpc-intro/assets/img/incubator-logo-blue.svg
+      image: /carpentries-incubator.svg
       license: CC-BY-4.0
 ---
 
@@ -44,12 +47,6 @@ In all these cases, access to more (and larger) computers is needed. Those
 computers should be usable at the same time, __solving many researchers'
 problems in parallel__.
 
-## Jargon Busting Presentation
-
-Open the [HPC Jargon Buster]({{ site.url }}{{ site.baseurl }}/files/jargon.html#p1)
-in a new tab. To present the content, press `C` to open a **c**lone in a
-separate window, then press `P` to toggle **p**resentation mode.
-
 ::::challenge{id=never-used-server title="I've Never Used a Server, Have I?"}
 
 Take a minute and think about which of your daily interactions with a
@@ -57,6 +54,7 @@ computer may require a remote server or even cluster to provide you with
 results.
 
 :::solution
+
 ## Some Ideas
 
 * Checking email: your computer (possibly in your pocket) contacts a remote
