@@ -1,5 +1,5 @@
 ---
-name: Introduction to CMake
+name: Modern CMake
 id: cmake
 dependsOn: [technology_and_tooling.ide.cpp]
 files: [

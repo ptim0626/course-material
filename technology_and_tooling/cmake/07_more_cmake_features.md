@@ -80,7 +80,7 @@ CMake allows the declaration of reusable functions:
 
 ```cmake
 function(add a b)
-    math(EXPR result "{a}+{b}")
+    math(EXPR result "${a}+${b}")
     message("The sum is ${result}")
 endfunction()
 ```

@@ -63,9 +63,17 @@ Often we want to target a particular version of the C++ standard, and we can do 
 
 ```cmake
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 ```
 
 We're using the [C++17](https://en.cppreference.com/w/cpp/17) language dialect.
+On its own, `CMAKE_CXX_STANDARD` is only a _request_: if the compiler doesn't
+support it, CMake will quietly fall back to an older standard. Setting
+`CMAKE_CXX_STANDARD_REQUIRED` to `ON` turns that into a hard error instead.
+Setting `CMAKE_CXX_EXTENSIONS` to `OFF` asks for standard C++ (e.g. `-std=c++17`)
+rather than compiler-specific extensions (e.g. `-std=gnu++17`), which keeps the
+build portable across compilers.
 
 ### Tell it what to build
 

@@ -113,11 +113,20 @@ able to find and link against only the components that are needed using `find_pa
 
 ```cmake
 set(boost_components filesystem chrono)
-find_package(Boost MODULE REQUIRED COMPONENTS ${boost_components})
+find_package(Boost CONFIG REQUIRED COMPONENTS ${boost_components})
 ```
 
 The CMake target for a component is `<PackageName>::<ComponentName>`
 (*e.g.* `Boost::filesystem`).
+
+:::callout
+Boost used to be the classic example of a library found in _module_ mode, but
+modern Boost (1.70 and later) ships its own `BoostConfig.cmake`, so we use
+_config_ mode (`CONFIG`) here. In fact, CMake's bundled `FindBoost` module was
+deprecated in CMake 3.30 (policy `CMP0167`), so `CONFIG` is now the recommended
+way to find Boost. _Module_ mode is still important for the many libraries that
+only ship a `Find<PackageName>.cmake` module.
+:::
 
 
 ::::challenge{id=adding-boost-dep title="Adding the Boost dependency"} 
@@ -125,14 +134,14 @@ The CMake target for a component is `<PackageName>::<ComponentName>`
 Look at Checkpoint 4. The executable `exe/main.cpp` depends on the [Boost Program Options](https://www.boost.org/doc/libs/1_74_0/doc/html/program_options.html)
 library for handling command line arguments.
 
-Task: Using `find_package` in `MODULE` mode, modify the `CMakeLists.txt` in directory `exe/` to
+Task: Using `find_package` in `CONFIG` mode, modify the `CMakeLists.txt` in directory `exe/` to
 find and link target `main_executable` against `Boost::program_options`.
 
 :::solution
 Your `exe/CMakeLists.txt` should look like this:
 
 ```cmake
-find_package(Boost MODULE REQUIRED COMPONENTS program_options)
+find_package(Boost CONFIG REQUIRED COMPONENTS program_options)
 message(STATUS "Found Boost ${Boost_VERSION}")
 
 add_executable(main_executable main.cpp)
