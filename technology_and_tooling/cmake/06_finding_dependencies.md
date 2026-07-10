@@ -4,14 +4,10 @@ dependsOn: [technology_and_tooling.cmake.05_targets_and_libraries]
 tags: [cpp]
 attribution:
   - citation: >
-      "Introduction to CMake" course developed by Fergus Cooper and the Oxford Research
+      "Modern CMake" course developed by Fergus Cooper and the Oxford Research
       Software Engineering group
-    url: https://github.com/OxfordRSE/IntroCMakeCourse
-    image: https://www.rse.ox.ac.uk/sites/default/files/rse/site-logo/banner_ox_rse_desktop.svg
-    license: CC-BY-4.0
-  - citation: This course material was developed as part of UNIVERSE-HPC, which is funded through the SPF ExCALIBUR programme under grant number EP/W035731/1
-    url: https://www.universe-hpc.ac.uk
-    image: https://www.universe-hpc.ac.uk/assets/images/universe-hpc.png
+    url: https://www.rse.ox.ac.uk/
+    image: ./cmake/img/2024_oxrse_square.svg
     license: CC-BY-4.0
 ---
 
@@ -42,11 +38,10 @@ the library is installed).
 
 This is usually given by the library vendor.
 
-::::challenge{id=adding-eigen-dep title="Adding the Eigen dependency"} 
+::::challenge{id=adding-eigen-dep title="Adding the Eigen dependency"}
 
 Look at Checkpoint 3. A new file `src/functionality_eigen.cpp` depends on the
-[Eigen](https://libeigen.gitlab.io/) library for linear
-algebra.
+[Eigen](https://libeigen.gitlab.io/) library for linear algebra.
 
 Task: Using `find_package`, modify the `CMakeLists.txt` in directory `src/` to
 link target `cmake_course_lib` against Eigen.
@@ -63,21 +58,14 @@ Your `src/CMakeLists.txt` should look like this:
 find_package(Eigen3 CONFIG REQUIRED)
 message(STATUS "Found Eigen3 ${Eigen3_VERSION}")
 
-set(
-        cmake_course_source_files
+add_library(cmake_course_lib STATIC
         functionality.cpp
-        functionality_eigen.cpp
-)
-
-set(
-        cmake_course_header_files
         functionality.hpp
+        functionality_eigen.cpp
         functionality_eigen.hpp
 )
-
-add_library(cmake_course_lib STATIC ${cmake_course_source_files} ${cmake_course_header_files})
 target_include_directories(cmake_course_lib INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(cmake_course_lib PRIVATE Eigen3::Eigen)
+  target_link_libraries(cmake_course_lib PRIVATE Eigen3::Eigen)
 ```
 
 :::
@@ -100,7 +88,7 @@ library on the system, they are often specific to a particular library and look
 in specific locations that the library might be found in different operating
 systems (e.g. `/usr/lib`, `/usr/local/lib`).
 
-Such *module files* are provided by CMake itself for common libraries,
+Such _module files_ are provided by CMake itself for common libraries,
 they can also be written for a particular use case if required.
 
 ### Package components
@@ -117,7 +105,7 @@ find_package(Boost CONFIG REQUIRED COMPONENTS ${boost_components})
 ```
 
 The CMake target for a component is `<PackageName>::<ComponentName>`
-(*e.g.* `Boost::filesystem`).
+(_e.g._ `Boost::filesystem`).
 
 :::callout
 Boost used to be the classic example of a library found in _module_ mode, but
@@ -128,8 +116,7 @@ way to find Boost. _Module_ mode is still important for the many libraries that
 only ship a `Find<PackageName>.cmake` module.
 :::
 
-
-::::challenge{id=adding-boost-dep title="Adding the Boost dependency"} 
+::::challenge{id=adding-boost-dep title="Adding the Boost dependency"}
 
 Look at Checkpoint 4. The executable `exe/main.cpp` depends on the [Boost Program Options](https://www.boost.org/doc/libs/1_74_0/doc/html/program_options.html)
 library for handling command line arguments.
@@ -146,8 +133,8 @@ message(STATUS "Found Boost ${Boost_VERSION}")
 
 add_executable(main_executable main.cpp)
 target_link_libraries(main_executable PRIVATE cmake_course_lib)
-target_link_libraries(main_executable PRIVATE project_warnings)
 target_link_libraries(main_executable PRIVATE Boost::program_options)
 ```
+
 :::
 ::::

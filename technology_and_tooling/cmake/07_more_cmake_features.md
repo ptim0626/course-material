@@ -4,14 +4,10 @@ dependsOn: [technology_and_tooling.cmake.06_finding_dependencies]
 tags: [cpp]
 attribution:
   - citation: >
-      "Introduction to CMake" course developed by Fergus Cooper and the Oxford Research
+      "Modern CMake" course developed by Fergus Cooper and the Oxford Research
       Software Engineering group
-    url: https://github.com/OxfordRSE/IntroCMakeCourse
-    image: https://www.rse.ox.ac.uk/sites/default/files/rse/site-logo/banner_ox_rse_desktop.svg
-    license: CC-BY-4.0
-  - citation: This course material was developed as part of UNIVERSE-HPC, which is funded through the SPF ExCALIBUR programme under grant number EP/W035731/1
-    url: https://www.universe-hpc.ac.uk
-    image: https://www.universe-hpc.ac.uk/assets/images/universe-hpc.png
+    url: https://www.rse.ox.ac.uk/
+    image: ./cmake/img/2024_oxrse_square.svg
     license: CC-BY-4.0
 ---
 
@@ -20,12 +16,12 @@ attribution:
 Any file containing valid CMake syntax can be "included" in the
 current `CMakeLists.txt`. This is similar to the `#include`{.cpp} directive in C++, and is
 useful for splitting up large `CMakeLists.txt` files into smaller, more
-manageable chunks, for using additional CMake functionality, or for reusing 
+manageable chunks, for using additional CMake functionality, or for reusing
 functionality across projects.
 
 ```cmake
 # CMakeLists.txt
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.24...3.31)
 project(IntroCMakeCourse LANGUAGES CXX)
 include(file_to_include.cmake)
 
@@ -102,8 +98,8 @@ option(WARNINGS_AS_ERRORS "Treat compiler warnings as errors" TRUE)
 This is useful for allowing users to configure the build process. The value of
 options can be specified at the command line using the `-D` syntax:
 
-```cmake
-cmake -DWARNINGS_AS_ERRORS=FALSE ..
+```bash
+cmake -S . -B build_dir -DWARNINGS_AS_ERRORS=FALSE
 ```
 
 Options are a special case of "cache" variable, whose value persist
@@ -112,7 +108,7 @@ the file `CMakeCache.txt` in the build directory.
 
 ## Built-in CMake variables
 
-CMake provides _a lot_ of pre-defined variables which values describe the system.
+CMake provides _a lot_ of pre-defined variables whose values describe your system.
 
 For instance, the value of `CMAKE_CXX_COMPILER_ID` can be queried
 to determine which C++ compiler is used.
@@ -141,7 +137,16 @@ targets so that they inherit the flags.
 
 Let's see how that works, in Checkpoint 5...
 
-::::challenge{id=compiler-options title="Setting compiler options"} 
+:::callout
+This interface-"library" pattern is a flexible way to share any compile options
+across targets. If all you need is to promote warnings to errors, recent CMake
+(3.24 and later) has a built-in switch: set the target property
+`COMPILE_WARNING_AS_ERROR`, or configure with
+`-DCMAKE_COMPILE_WARNING_AS_ERROR=ON`. You still choose _which_ warnings to
+enable separately, which is what `CompilerWarnings.cmake` does here.
+:::
+
+::::challenge{id=compiler-options title="Setting compiler options"}
 
 Look at Checkpoint 5. We have a new directory `cmake/` containing a file
 `CompilerWarnings.cmake` that sets compiler flags to enable many different
@@ -159,11 +164,11 @@ int unused_variable = 0;
 Do you get a compiler warning? An error? Try configuring `WARNINGS_AS_ERRORS` and see the difference:
 
 ```bash
-cmake -DWARNINGS_AS_ERRORS=ON ..
+cmake -S . -B build_dir -DWARNINGS_AS_ERRORS=ON
 ```
 
 ```bash
-cmake -DWARNINGS_AS_ERRORS=OFF ..
+cmake -S . -B build_dir -DWARNINGS_AS_ERRORS=OFF
 ```
 
 ::::

@@ -4,14 +4,10 @@ dependsOn: [technology_and_tooling.cmake.01_introduction]
 tags: [cpp]
 attribution:
   - citation: >
-      "Introduction to CMake" course developed by Fergus Cooper and the Oxford Research
+      "Modern CMake" course developed by Fergus Cooper and the Oxford Research
       Software Engineering group
-    url: https://github.com/OxfordRSE/IntroCMakeCourse
-    image: https://www.rse.ox.ac.uk/sites/default/files/rse/site-logo/banner_ox_rse_desktop.svg
-    license: CC-BY-4.0
-  - citation: This course material was developed as part of UNIVERSE-HPC, which is funded through the SPF ExCALIBUR programme under grant number EP/W035731/1
-    url: https://www.universe-hpc.ac.uk
-    image: https://www.universe-hpc.ac.uk/assets/images/universe-hpc.png
+    url: https://www.rse.ox.ac.uk/
+    image: ./cmake/img/2024_oxrse_square.svg
     license: CC-BY-4.0
 ---
 
@@ -41,39 +37,58 @@ CMake required, this is because CMake has changed a lot over the years, and some
 features are only available in newer versions.
 
 ```cmake
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.24...3.31)
 ```
 
-tells CMake which version we used, affecting the features available and the
-interpretation of `CMakeLists.txt`
+This tells CMake which versions we support. The first number (`3.24`) is the
+minimum version needed to configure the project. The second (`3.31`) is the most
+recent version whose behaviour we have checked against: CMake changes its
+defaults over time through _policies_, and this upper bound stops a newer CMake
+from silently changing how our project builds.
 
 ### Define a project
 
 Then we define a project by giving it a name and specifying the languages used.
 
 ```cmake
-project(IntroCMakeCourse LANGUAGES CXX)
+project(IntroCMakeCourse
+        VERSION 1.0.0
+        DESCRIPTION "Introductory CMake course"
+        LANGUAGES CXX)
 ```
 
-We have a project called `IntroCMakeCourse`, in the C++ language.
+We have a project called `IntroCMakeCourse`, at version `1.0.0`, written in C++.
+Giving the project a `VERSION` and `DESCRIPTION` is good practice: CMake exposes
+them as variables such as `PROJECT_VERSION`, and reuses them later when we install
+or package the project.
 
 ### Configure the compiler
 
 Often we want to target a particular version of the C++ standard, and we can do that like so:
 
 ```cmake
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 ```
 
-We're using the [C++17](https://en.cppreference.com/w/cpp/17) language dialect.
+We're using the [C++20](https://en.cppreference.com/w/cpp/20) language standard.
 On its own, `CMAKE_CXX_STANDARD` is only a _request_: if the compiler doesn't
 support it, CMake will quietly fall back to an older standard. Setting
 `CMAKE_CXX_STANDARD_REQUIRED` to `ON` turns that into a hard error instead.
-Setting `CMAKE_CXX_EXTENSIONS` to `OFF` asks for standard C++ (e.g. `-std=c++17`)
-rather than compiler-specific extensions (e.g. `-std=gnu++17`), which keeps the
+Setting `CMAKE_CXX_EXTENSIONS` to `OFF` asks for standard C++ (e.g. `-std=c++20`)
+rather than compiler-specific extensions (e.g. `-std=gnu++20`), which keeps the
 build portable across compilers.
+
+These variables set the standard project-wide. Once you have defined a target,
+you can also request a standard on a _per-target_ basis, which is often clearer
+and, for a library, propagates the requirement to anything that links it:
+
+```cmake
+target_compile_features(main_executable PUBLIC cxx_std_20)
+```
+
+We use the project-wide variables here for simplicity.
 
 ### Tell it what to build
 
@@ -87,35 +102,63 @@ There is a program, called `main_executable`, which depends on the source code i
 
 ### Using CMake
 
-That is our `CMakeLists.txt`, now we can use CMake to configure our project.
+That is our `CMakeLists.txt`, and now we can use CMake to configure our project.
 This is the first step in the compilation, during which CMake uses our
 `CMakeLists.txt` file to generate the build files. If we are using a Linux
 distribution like Ubuntu, it is likely that we will be using Make, so in this
-case CMake will generate a Makefile that can build our project.
+case CMake will generate a Makefile that contains instructions to build our project.
 
-It's typical to build "out of tree", by running CMake in a separate place. This keeps
-generated files out of your source folder and allows you to have multiple
-builds, for instance for different compilers or build configurations.
+It's typical to build "out of tree", keeping the generated files in a separate
+directory. This keeps them out of your source folder and lets you keep several
+builds side by side, for instance for different compilers or configurations. We
+point CMake at the source directory with `-S` and at a build directory with `-B`,
+which it creates for us:
 
 ```bash
-# from checkpoint0$
-mkdir build
-cd build
-cmake ..
+# from checkpoint_0
+cmake -S . -B build_dir
 ```
+
 ```output
 [...]
--- Build files have been written to: <...>/checkpoint_0/build
+-- Build files have been written to: <...>/checkpoint_0/build_dir
 ```
+
+:::callout
+Adding `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON` at configure time writes a
+`compile_commands.json` file into the build directory. Editors and language
+servers such as clangd read this file to understand exactly how each source is
+compiled, giving you accurate navigation, completion, and diagnostics.
+
+Try that now, and have a look inside the `compile_commands.json` that it generates:
+
+```bash
+# from checkpoint_0
+cmake -S . -B build_dir -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+```
+
+It should look something like:
+
+```json
+[
+{
+  "directory": "<>/IntroCMakeCourse/checkpoint_0/build_dir",
+  "command": "/usr/bin/c++   -std=c++20 -o CMakeFiles/main_executable.dir/main.cpp.o -c <>/IntroCMakeCourse/checkpoint_0/main.cpp",
+  "file": "<>/IntroCMakeCourse/checkpoint_0/main.cpp",
+  "output": "CMakeFiles/main_executable.dir/main.cpp.o"
+}
+]
+```
+
+:::
 
 ### Build your project
 
-CMake only generated the build script, it didn't actually compile anything.
-To compile the project, we use the build system that CMake generated, in this case Make:
+CMake only generated the build files, it didn't compile anything yet. We ask
+CMake to drive the build for us:
 
 ```bash
-# from build$
-make
+cmake --build build_dir
 ```
 
 ```output
@@ -123,10 +166,14 @@ make
 [100%] Built target main_executable
 ```
 
-We can then run the executable directly:
+Using `cmake --build` rather than calling `make` (or `ninja`) directly means the
+same command works whatever build tool CMake generated for, which is convenient
+in scripts and on other people's machines.
+
+We can then run the executable:
 
 ```bash
-./main_executable
+./build_dir/main_executable
 ```
 
 ```output
@@ -134,20 +181,6 @@ Checkpoint 0
 Hello, World!
 ```
 
-We can also use CMake to build the project. This does the same thing as the
-`make` command above, but is more portable as it works with other build systems
-too.
-
-```bash
-# from build$
-cmake --build .
-```
-
-```output
-[...]
-[100%] Built target main_executable
-```
-
-::::challenge{id=cmake-workflow title="CMake workflow"} 
+::::challenge{id=cmake-workflow title="CMake workflow"}
 Verify that you can configure, compile and run the executable in Checkpoint 0.
 ::::

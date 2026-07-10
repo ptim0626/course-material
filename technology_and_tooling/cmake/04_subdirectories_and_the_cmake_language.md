@@ -4,14 +4,10 @@ dependsOn: [technology_and_tooling.cmake.03_configuring_the_build]
 tags: [cpp]
 attribution:
   - citation: >
-      "Introduction to CMake" course developed by Fergus Cooper and the Oxford Research
+      "Modern CMake" course developed by Fergus Cooper and the Oxford Research
       Software Engineering group
-    url: https://github.com/OxfordRSE/IntroCMakeCourse
-    image: https://www.rse.ox.ac.uk/sites/default/files/rse/site-logo/banner_ox_rse_desktop.svg
-    license: CC-BY-4.0
-  - citation: This course material was developed as part of UNIVERSE-HPC, which is funded through the SPF ExCALIBUR programme under grant number EP/W035731/1
-    url: https://www.universe-hpc.ac.uk
-    image: https://www.universe-hpc.ac.uk/assets/images/universe-hpc.png
+    url: https://www.rse.ox.ac.uk/
+    image: ./cmake/img/2024_oxrse_square.svg
     license: CC-BY-4.0
 ---
 
@@ -46,11 +42,13 @@ add_subdirectory(src)
 
 This causes CMake to processes the `CMakeLists.txt` file in the directory `src`.
 
-
-```bash
+```cmake
 # src/CMakeLists.txt
-set(src_source_files file1 file2 file3)
-add_executable(executable ${src_source_files})
+add_executable(main_executable
+        functionality.cpp
+        functionality.hpp
+        main.cpp
+)
 ```
 
 Variables defined in the upper scope are available in the lower scope, but not
@@ -93,7 +91,17 @@ set(var files) # var = "files"
 set(yet_another_list ${src_${var}})
 ```
 
-::::challenge{id=add-function title="Adding new files to the project"} 
+:::callout
+Storing a list of sources in a variable like this works, but in modern CMake it
+is usually clearer to list the sources directly in `add_executable` or
+`add_library`.
+
+Also avoid using `file(GLOB ...)` to collect sources automatically:
+CMake cannot tell when you add or remove a file, so the build can silently go
+stale.
+:::
+
+::::challenge{id=add-function title="Adding new files to the project"}
 
 Look through the files in Checkpoint 1.
 
@@ -108,20 +116,13 @@ Add a new pair of hpp/cpp files that defines a new function.
 `src/CMakeLists.txt` should look like this:
 
 ```cmake
-set(
-        src_source_files
+add_executable(main_executable
         functionality.cpp
+        functionality.hpp
         new_function.cpp
+        new_function.hpp
         main.cpp
 )
-
-set(
-        src_header_files
-        functionality.hpp
-        new_function.hpp
-)
-
-add_executable(main_executable ${src_source_files} ${src_header_files})
 ```
 
 `src/new_function.cpp` should look like this:
@@ -161,6 +162,45 @@ int main() {
     return 0;
 }
 ```
+
 :::
 
 ::::
+
+### Print information with `message()`
+
+You often need to print information during the configuration step. This can be
+done with the `message()` command:
+
+```cmake
+set(name "Jane Doe")
+message(STATUS "Hello ${name}")
+```
+
+```output
+-- The C compiler identification is GNU 8.3.0
+...
+-- Hello Jane Doe
+-- Configuring done
+-- Generating done
+```
+
+### Options for `message()`
+
+```cmake
+message(STATUS "A simple message")
+```
+
+`STATUS` can be replaced by *e.g.* `WARNING`, `SEND_ERROR`, `FATAL_ERROR`
+depending on the situation.
+
+```cmake
+message(SEND_ERROR "An error occurred but configure step continues")
+```
+
+```text
+CMake Error at CMakeLists.txt:2 (message):
+    An error occurred but configure step continues
+
+-- Configuring incomplete, errors occurred!
+```

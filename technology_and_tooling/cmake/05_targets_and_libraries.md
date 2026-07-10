@@ -4,14 +4,10 @@ dependsOn: [technology_and_tooling.cmake.04_subdirectories_and_the_cmake_languag
 tags: [cpp]
 attribution:
   - citation: >
-      "Introduction to CMake" course developed by Fergus Cooper and the Oxford Research
+      "Modern CMake" course developed by Fergus Cooper and the Oxford Research
       Software Engineering group
-    url: https://github.com/OxfordRSE/IntroCMakeCourse
-    image: https://www.rse.ox.ac.uk/sites/default/files/rse/site-logo/banner_ox_rse_desktop.svg
-    license: CC-BY-4.0
-  - citation: This course material was developed as part of UNIVERSE-HPC, which is funded through the SPF ExCALIBUR programme under grant number EP/W035731/1
-    url: https://www.universe-hpc.ac.uk
-    image: https://www.universe-hpc.ac.uk/assets/images/universe-hpc.png
+    url: https://www.rse.ox.ac.uk/
+    image: ./cmake/img/2024_oxrse_square.svg
     license: CC-BY-4.0
 ---
 
@@ -69,8 +65,8 @@ implementation. Programs using `another_target` don't need to know about `my_lib
 
 Picture another dependency scenario:
 
--   `another_target` uses `my_lib` in its internal implementation.
--   **and** `another_target` defines some function that take parameters of a type defined
+- `another_target` uses `my_lib` in its internal implementation.
+- **and** `another_target` defines some function that take parameters of a type defined
     in `my_lib`.
 
 Programs using `another_target` also must link against `my_lib`:
@@ -108,12 +104,11 @@ Example:
 target_include_directories(my_lib INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 ```
 
--   `PRIVATE`: sets `INCLUDE_DIRECTORIES`.
--   `INTERFACE`: sets `INTERFACE_INCLUDE_DIRECTORIES`.
--   `PUBLIC`: sets both.
+- `PRIVATE`: sets `INCLUDE_DIRECTORIES`.
+- `INTERFACE`: sets `INTERFACE_INCLUDE_DIRECTORIES`.
+- `PUBLIC`: sets both.
 
-
-::::challenge{id=make-a-library title="Make a library"} 
+::::challenge{id=make-a-library title="Make a library"}
 
 Let's separate the functionality from the executable itself:
 
@@ -140,41 +135,3 @@ Have a look at Checkpoint 2 for a solution.
 :::
 
 ::::
-
-### Print information with `message()`
-
-You often need to print information during the configuration step. This can be
-done with the `message()` command:
-
-```cmake
-set(name "Jane Doe")
-message(STATUS "Hello ${name}")
-```
-
-```text
--- The C compiler identification is GNU 8.3.0
-...
--- Hello Jane Doe
--- Configuring done
--- Generating done
-```
-
-### Options for `message()`
-
-```cmake
-message(STATUS "A simple message")
-```
-
-`STATUS` can be replaced by *e.g.* `WARNING`, `SEND_ERROR`, `FATAL_ERROR`
-depending on the situation.
-
-```cmake
-message(SEND_ERROR "An error occurred but configure step continues")
-```
-
-```text
-CMake Error at CMakeLists.txt:2 (message):
-    An error occurred but configure step continues
-
--- Configuring incomplete, errors occurred!
-```

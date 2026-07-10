@@ -13,7 +13,7 @@ files: [
 ]
 learningOutcomes:
   - Explain what CMake is and why it is used to build C++ projects.
-  - Write a CMakeLists.txt to configure, build and run a C++ executable.
+  - Write a CMakeLists.txt and configure, build and run a C++ executable.
   - Control the build using different generators and build configurations.
   - Structure a larger project across subdirectories using the CMake language.
   - Define executable and library targets and manage their dependencies with target visibility keywords.
@@ -27,14 +27,10 @@ summary: |
   language to make builds portable and reproducible.
 attribution:
   - citation: >
-      "Introduction to CMake" course developed by Fergus Cooper and the Oxford Research
+      "Modern CMake" course developed by Fergus Cooper and the Oxford Research
       Software Engineering group
-    url: https://github.com/OxfordRSE/IntroCMakeCourse
-    image: https://www.rse.ox.ac.uk/sites/default/files/rse/site-logo/banner_ox_rse_desktop.svg
-    license: CC-BY-4.0
-  - citation: This course material was developed as part of UNIVERSE-HPC, which is funded through the SPF ExCALIBUR programme under grant number EP/W035731/1
-    url: https://www.universe-hpc.ac.uk
-    image: https://www.universe-hpc.ac.uk/assets/images/universe-hpc.png
+    url: https://www.rse.ox.ac.uk/
+    image: ./cmake/img/2024_oxrse_square.svg
     license: CC-BY-4.0
 ---
 

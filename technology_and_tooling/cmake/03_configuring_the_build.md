@@ -4,14 +4,10 @@ dependsOn: [technology_and_tooling.cmake.02_a_first_cmake_project]
 tags: [cpp]
 attribution:
   - citation: >
-      "Introduction to CMake" course developed by Fergus Cooper and the Oxford Research
+      "Modern CMake" course developed by Fergus Cooper and the Oxford Research
       Software Engineering group
-    url: https://github.com/OxfordRSE/IntroCMakeCourse
-    image: https://www.rse.ox.ac.uk/sites/default/files/rse/site-logo/banner_ox_rse_desktop.svg
-    license: CC-BY-4.0
-  - citation: This course material was developed as part of UNIVERSE-HPC, which is funded through the SPF ExCALIBUR programme under grant number EP/W035731/1
-    url: https://www.universe-hpc.ac.uk
-    image: https://www.universe-hpc.ac.uk/assets/images/universe-hpc.png
+    url: https://www.rse.ox.ac.uk/
+    image: ./cmake/img/2024_oxrse_square.svg
     license: CC-BY-4.0
 ---
 
@@ -19,21 +15,26 @@ attribution:
 
 ### Choosing a generator
 
-CMake can create more than Makefiles. It can generate IDE projects, or build descriptions for the fast Ninja tool.
+CMake can create more than Makefiles. It can generate IDE projects, or build descriptions for the fast [Ninja](https://ninja-build.org/) tool.
+
+To try that out, you'll need a clean build directory. In CMake ≥ 3.24, you can
+achieve that with the `--fresh` flag. With older CMake, you can carefully delete
+the current contents of your build directory.
 
 ```bash
-build$ cmake -G Ninja ..
+cmake --fresh -S . -B build_dir -G Ninja
 [...]
 
-build$ ninja
-[2/2] Linking CXX executable main_executable
+cmake --build build_dir
+[4/4] Linking CXX executable main_executable
 ```
 
-You can build uniformly, regardless of the generator:
+You can build the same way regardless of the generator, because `cmake --build`
+drives whichever tool CMake generated for:
 
 ```bash
-build$ cmake -G Ninja ..
-build$ cmake --build . --target main_executable
+cmake -S . -B build_dir -G Ninja
+cmake --build build_dir --target main_executable
 ```
 
 This can be particularly useful in automated scripts that may be run on
@@ -42,27 +43,25 @@ different systems using different generators.
 ### Setting configuration
 
 You (and users) can override choices made by CMake using the `-D` argument.
+For instance, you might want to use a different compiler:
 
 ```bash
-build$ cmake -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-10 ..
--- Configuring done
-You have changed variables that require your cache to be deleted.
-Configure will be re-run and you may have to reset some variables.
-The following variables have changed:
-CMAKE_CXX_COMPILER= /usr/local/bin/g++-10
+cmake -S . -B build_dir -DCMAKE_CXX_COMPILER=clang++
+```
 
--- The CXX compiler identification is GNU 10.2.0
+```output
+-- The CXX compiler identification is Clang 21.1.8
 [...]
 ```
 
-You can switch between Debug, Release, RelWithDebInfo and MinSizeRel, by default:
+Another common task is setting the optimisation level. CMake provides several
+default configurations: Debug, Release, RelWithDebInfo and MinSizeRel.
 
 ```bash
-build$ cmake -DCMAKE_BUILD_TYPE=Release ..
-[...]
+cmake -S . -B build_dir -DCMAKE_BUILD_TYPE=Release
 ```
 
-The default flags with `g++` are:
+The default flags with the `g++` compiler are:
 
 ```cmake
 CMAKE_CXX_FLAGS_DEBUG            -g
@@ -71,10 +70,10 @@ CMAKE_CXX_FLAGS_RELEASE          -O3 -DNDEBUG
 CMAKE_CXX_FLAGS_RELWITHDEBINFO   -O2 -g -DNDEBUG
 ```
 
-::::challenge{id=cmake-config title="CMake configuration"} 
+::::challenge{id=cmake-config title="CMake configuration"}
 
 Try using the Ninja generator, compiling in Release mode, and using another compiler if you have one installed.
 
-Remember that you might have to clean your build directory when, e.g., changing generator.
+Remember that you might have to use `--fresh` to clean your build directory when, e.g., changing generator.
 
 ::::
