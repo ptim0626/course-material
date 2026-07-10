@@ -9,7 +9,6 @@ files:
     pack_python_03reusing.md,
     pack_python_04sharing.md,
     virtual_environments_python.md,
-    cmake.md,
   ]
 learningOutcomes:
   - Organise your Python code into a package.
@@ -17,7 +16,6 @@ learningOutcomes:
   - Configure your Python package to distribute to others.
   - Share your Python package by publishing to a package index.
   - Use Python virtual environments for reproducibility.
-  - Allow reproducible builds of your C++ code with CMake.
 attribution:
   - citation: >
       "Python Packaging" course developed by Thibault Lestang and the Oxford Research 
@@ -31,7 +29,6 @@ attribution:
     license: CC-BY-4.0
 
 summary: |
-  This course introduces the basics of packaging and dependency management in Python and C++.
-  For Python, we introduce `venv` for virtual envronments, and `pip` for package management and how to structure a modern Python package and publish it to PyPI.
-  For C++, we introduce the CMake build system and how use it to manage dependencies and the build process.
+  This course introduces the basics of packaging and dependency management in Python.
+  We introduce `venv` for virtual environments, and `pip` for package management and how to structure a modern Python package and publish it to PyPI.
 ---
