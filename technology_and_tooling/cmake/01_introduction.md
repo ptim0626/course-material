@@ -76,8 +76,8 @@ Clone the material repository and change your current working directory to the p
 root:
 
 ```bash
-git clone https://github.com/OxfordRSE/IntroCMakeCourse
-cd IntroCMakeCourse
+git clone https://github.com/OxfordRSE/ModernCMakeCourse
+cd ModernCMakeCourse
 ```
 
 ## What is CMake and why should I use it?

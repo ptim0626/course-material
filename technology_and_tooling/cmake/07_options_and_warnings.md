@@ -22,7 +22,7 @@ functionality across projects.
 ```cmake
 # CMakeLists.txt
 cmake_minimum_required(VERSION 3.24...3.31)
-project(IntroCMakeCourse LANGUAGES CXX)
+project(ModernCMakeCourse LANGUAGES CXX)
 include(cmake/file_to_include.cmake)
 
 set(name "Foo Bar")

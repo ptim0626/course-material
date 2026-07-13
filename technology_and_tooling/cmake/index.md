@@ -60,4 +60,4 @@ installing a library so that other projects can find and use it.
 
 The course is accompanied by a series of checkpoints, each a small C++ project to
 work through, in the
-[IntroCMakeCourse repository](https://github.com/OxfordRSE/IntroCMakeCourse).
+[ModernCMakeCourse repository](https://github.com/OxfordRSE/ModernCMakeCourse).

@@ -245,7 +245,7 @@ CMake can also produce distributable archives and installers through **CPack**.
 Set a few variables and include the module:
 
 ```cmake
-set(CPACK_PACKAGE_NAME "IntroCMakeCourse")
+set(CPACK_PACKAGE_NAME "ModernCMakeCourse")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 include(CPack)
 ```

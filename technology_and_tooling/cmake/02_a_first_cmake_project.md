@@ -51,13 +51,13 @@ from silently changing how our project builds.
 Then we define a project by giving it a name and specifying the languages used.
 
 ```cmake
-project(IntroCMakeCourse
+project(ModernCMakeCourse
         VERSION 1.0.0
-        DESCRIPTION "Introductory CMake course"
+        DESCRIPTION "Modern CMake course"
         LANGUAGES CXX)
 ```
 
-We have a project called `IntroCMakeCourse`, at version `1.0.0`, written in C++.
+We have a project called `ModernCMakeCourse`, at version `1.0.0`, written in C++.
 Giving the project a `VERSION` and `DESCRIPTION` is good practice: CMake exposes
 them as variables such as `PROJECT_VERSION`, and reuses them later when we install
 or package the project.
@@ -142,9 +142,9 @@ It should look something like:
 ```json
 [
 {
-  "directory": "<>/IntroCMakeCourse/checkpoint_0/build_dir",
-  "command": "/usr/bin/c++   -std=c++20 -o CMakeFiles/main_executable.dir/main.cpp.o -c <>/IntroCMakeCourse/checkpoint_0/main.cpp",
-  "file": "<>/IntroCMakeCourse/checkpoint_0/main.cpp",
+  "directory": "<>/ModernCMakeCourse/checkpoint_0/build_dir",
+  "command": "/usr/bin/c++   -std=c++20 -o CMakeFiles/main_executable.dir/main.cpp.o -c <>/ModernCMakeCourse/checkpoint_0/main.cpp",
+  "file": "<>/ModernCMakeCourse/checkpoint_0/main.cpp",
   "output": "CMakeFiles/main_executable.dir/main.cpp.o"
 }
 ]
