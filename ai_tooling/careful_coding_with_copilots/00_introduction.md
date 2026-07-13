@@ -29,7 +29,7 @@ This exercise is intended to encourage you to critically engage with these techn
 This exercise has been designed so that it cannot be fixed by an LLM running autonomously (yet!!); you will need to take an active role in the debugging process.
 It isn't expected that you'll be able to complete everything in a single day.
 
-## What do I need to do?
+## Problem setup
 
 You have been given a dataset to analyse. It comprises:
 
@@ -47,8 +47,6 @@ The dynamics of this oscillation can be modelled using an [ordinary differential
 The parameters for this equation (for example, the half-life of a protein), and the form of the differential equations, can be found in the docs folder.
 
 Each cell circuit has slightly different parameter values. You are tasked with recovering the values of these parameters for a subset of the cell images. An LLM has been used to create an analysis pipeline, but it is not capable of achieving this aim. You are tasked with fixing the implementation. You can assess the success of this implementation by using the tests in the `tests/` folder.
-
-> **Important:** The test code is correct. All code inside `repressilator_analysis/` is LLM-generated and should be treated as suspect. In some cases, you may need to alter the test functions (e.g. for diagnostic code, or if you have changed the structure of the values returned by the functions in `repressilator_analysis/`), but the test logic itself should not change.
 
 ## Analysis tasks
 
@@ -106,13 +104,42 @@ Given the fluorescence values from the image analysis, we need to be able to con
 
 Combine the three modules together to estimate model parameters for a subset of cells in the dataset.
 
-## Guidance notes
+## What do I need to do?
 
-The image analysis, ODE inference and simulation and calibration modules each have a full "walkthrough" to modify the code to get the test to pass (although other solutions are of course possible).
+The structure of the Repressilator_analysis directory is as follows:
+
+```text
+├── docs/                      
+├── images/                      
+│   ├── intensity/
+│   └── phase/
+├── repressilator_analysis/   
+│   ├── calibration.py
+│   ├── fluorescence_extraction.py
+│   ├── image_loader.py
+│   ├── __init__.py
+│   ├── ode_inference.py
+│   └── pipeline.py
+└── tests/     
+    ├── calibration_test.py
+    ├── fluorescence_extractor_test.py
+    ├── ode_inference_test.py
+    ├── pipeline_test.py
+    └── testdata/
+```
+
+The two most important directories are `tests` and `repressilator_analysis`. In `repressilator_analysis`, all the three tasks are associated with a `.py` file, and contain functions designed to undertake the analysis tasks detailed above.
+In the `tests` folder, these functions are assessed for correctness. What this means is that the functions (in `repressilator_analysis`) are imported, given some data, and the resulting output analysed. If the output is correct, then the tests pass, otherwise they fail.
+
+You need to **edit the code in `repressilator_analysis`** with the aim of getting the tests in `tests` to pass. You may rewrite the code in `repressilator_analysis` as much as you like (and are encouraged to!).
+You may also edit the code in `tests`, but only for either a) diagnostic code (plotting and printing) or b) if you modify the data structures returned by the `repressilator_analysis` functions.
+In the latter case, you will need to rewrite the tests so that they can still check the correctness of the code, but the logic shouldn't change, only the processing of the outputs.
+
+The image analysis, ODE inference and simulation and calibration modules each have a full "walkthrough" if you get stuck, but this represents only one approach; other solutions are of course possible.
 The more time you spend trying to fix the code, as opposed to just copying and pasting the solutions, the more useful this exercise will be.
 
-I'd suggest starting with Calibration, then Image analysis, then ODE Simulation.
-These are independent modules, so you could do them in any order, but calibration is the simplest entry point.
+I'd suggest starting with Image analysis, then ODE Simulation, then Calibration.
+These are independent modules, so you could do them in any order, but the image analysis has clear visual failiure modes and so is easier to debug.
 Once these three have been completed, Pipeline integrates them.
 
 ## Notes on using LLMs
@@ -143,32 +170,27 @@ Make sure you have installed
 
 - [git](https://git-scm.com/install/)
 - A GenAI command line interface tool such as [Codex](https://developers.openai.com/codex/cli) or [Claude Code](https://claude.com/product/claude-code), or integrated design environment such as [VSCode](https://code.visualstudio.com/) that can use these services as a plugin
-- [Python >3.9](https://www.python.org/downloads/)
+- [Python >3.9](https://www.python.org/downloads/) (or VSCode which has a Python interepeter)
 
 To get started please navigate to the [Repressilator_analysis repo](https://github.com/HOLL95/Repressilator_analysis), create a template repository (the green `use this template` button)  to obtain your own copy of the repo (requires a github account).
-In your terminal then run
+In your terminal (Linux/Mac), or `cmd`/Git Bash on Windows, run
 
 ```bash
 git clone https://github.com/<Your Gihub Username>/Repressilator_analysis
 ```
 
+### Unix command line (Linux/Mac)
+
 Setup a virtual environment and activate it
 
 ```bash
 python -m venv <path/to/env>
-source env
 ```
 
-then activate it (Linux/Mac)
+then activate it
 
 ```bash
 source </path/to/env>/bin/activate
-```
-
-and on windows `cmd`
-
-```bash
-./.venv/Scripts/Activate.bat
 ```
 
 Finally, install the repressilator_analysis module into the virtual environment by running
@@ -176,6 +198,15 @@ Finally, install the repressilator_analysis module into the virtual environment 
 ```bash
 python -m pip install -e . 
 ```
+
+### VSCode only
+
+1. Install the Python extension and your copilot of choice (at the time of writing, the University of Oxford grants staff and students access to Codex, with an allowance of ~30 messages per day) from the extensions tab.
+2. Open the `Repressilator_analysis` folder using VSCode.
+3. Create a virtual environment using the command palette (`Ctrl+Shift+P` → `Python:Create Environment` → `Quick create`, or manually manage it with `venv` if you want to)
+4. Open a terminal (accessed through the `terminal` menu) and run `python -m pip install -e .` in the top level of the `Repressilator_analysis` directory
+
+You should now be able to use the `repressilator_analysis` module from this terminal and additionally by clicking the "run" triangle in the upper right hand corner of the editor.
 
 ## Glossary
 

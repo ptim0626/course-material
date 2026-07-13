@@ -1,6 +1,6 @@
 ---
 name: Calibration
-dependsOn: [ai_tooling.careful_coding_with_copilots.00_introduction]
+dependsOn: [ai_tooling.careful_coding_with_copilots.02_ode_simulation_and_inference]
 tags: [genai]
 learningOutcomes:
   - Debug LLM-generated calibration code
@@ -45,7 +45,7 @@ A description of how the calibration experiments were conducted can be found in 
 
 ## Debugging
 
-**AssertionError `assert np.mean(np.abs(calculated_molecules-true_amounts))<170`**
+**AssertionError `assert np.mean(np.abs(calculated_molecules-true_amounts))<200`**
 
 ::::challenge{id=what_code_does_cal title="What does the code do?"}
 Examine `pixel_intensities_to_molecules()` method and identify what transformations are made to go from pixel value to protein numbers.
@@ -164,16 +164,6 @@ we can then use these values in `pixel_intensities_to_molecules()`
 
 ```python nolint
 mass_ng = ((pixel_intensities - self.intercept) / self.slope) / CONVERSION_FACTOR
-```
-
-This approach gives us some negative molecule counts, so we enforce 0 for all values under 0, i.e.
-
-```python nolint
-if isinstance(molecules, np.ndarray):  # vector
-    molecules[molecules < 0] = 0
-else:  # scalar
-    if molecules < 0:
-        molecules = 0
 ```
 
 :::

@@ -1,6 +1,6 @@
 ---
 name: ODE Simulation and Inference
-dependsOn: [ai_tooling.careful_coding_with_copilots.02_fluorescence_extraction]
+dependsOn: [ai_tooling.careful_coding_with_copilots.01_fluorescence_extraction]
 tags: [genai, inference, ordinary differential equations]
 learningOutcomes:
   - Debug LLM-generated ODE simulation code
