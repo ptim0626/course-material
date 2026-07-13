@@ -11,6 +11,65 @@ attribution:
     license: CC-BY-4.0
 ---
 
+## Prerequisites
+
+This course assumes a Linux-like environment and a command line. If you are on
+Windows, the simplest route is the
+[Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)
+(WSL2) with an Ubuntu image, which gives you an Ubuntu shell alongside Windows.
+All instructions below assume a recent Ubuntu (24.04 LTS or newer) and its `apt`
+package manager. macOS works too, though you will need to translate the install
+commands to Homebrew.
+
+You will also want to be comfortable enough with C++ to read and edit a small
+program, though the C++ in the exercises is deliberately kept simple: the
+interesting part is always the `CMakeLists.txt`.
+
+### What you need
+
+- **CMake 3.24 or newer.** The exercises use features that need a reasonably
+  recent CMake, including header file sets, `CMakePresets.json`, and
+  `FetchContent`'s `FIND_PACKAGE_ARGS`.
+- **A C++20 compiler**, such as GCC 11 or newer, which you get from
+  `build-essential`.
+- **Ninja**, used as the build tool in the presets we write later on.
+- **Git**, both to clone the exercises and because `FetchContent` uses it to
+  download dependencies.
+- **Eigen** and **Boost.Program_options**, the two dependencies we ask CMake to
+  find on the system. Boost 1.70 or newer is needed, so that it provides its own
+  CMake config files.
+
+Everything comes from `apt`:
+
+```bash
+sudo apt update
+sudo apt install build-essential cmake ninja-build git \
+                 libeigen3-dev libboost-program-options-dev
+```
+
+Two other libraries appear later in the course, `fmt` and `Catch2`, but you do
+not need to install those: the build downloads them for you. That does mean you
+need a working internet connection when you reach those sections.
+
+### Checking your setup
+
+```bash
+cmake --version
+g++ --version
+ninja --version
+```
+
+:::callout{variant="warning"}
+Older Ubuntu releases ship a CMake that is too old for this course. Ubuntu 22.04,
+for instance, packages CMake 3.22, which predates the header file sets we rely on
+when installing a library.
+
+If `cmake --version` reports anything below 3.24, upgrade rather than working
+around it. Kitware, who develop CMake, publish an
+[APT repository](https://apt.kitware.com/) with current releases, and
+`pip install cmake` or `snap install cmake --classic` are quick alternatives.
+:::
+
 ## Course materials
 
 Clone the material repository and change your current working directory to the project

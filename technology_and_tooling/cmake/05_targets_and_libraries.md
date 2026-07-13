@@ -50,6 +50,36 @@ Use `SHARED` instead of `STATIC` to build a shared library: or,
 if omitted, CMake will pick a default based on the value of the variable
 `BUILD_SHARED_LIBS`.
 
+:::callout{variant="tip"}
+
+## Static or shared?
+
+A **static** library (`.a`, or `.lib` on Windows) is an archive of object files.
+Linking it copies the code it needs into the executable, so the result is
+self-contained and there is nothing to find at run time.
+
+A **shared** library (`.so`, `.dylib`, or `.dll`) stays a separate file. The
+executable records that it needs it, and the loader finds it each time the
+program starts. Several programs can then share one copy, and you can ship a
+bug-fix by replacing the library alone, as long as its interface has not changed.
+
+Reasonable defaults:
+
+- **Static** for code that lives inside one project, and for anything you want to
+  be easy to run somewhere else. It is the simplest thing that works, which is
+  why this course uses it.
+- **Shared** when several programs on a machine link the same library, when you
+  need to swap an implementation without relinking, or when a plugin system loads
+  code at run time.
+
+Rather than hard-coding the choice, you can omit `STATIC`/`SHARED` and let
+`BUILD_SHARED_LIBS` decide, which lets whoever builds your project choose with
+`-DBUILD_SHARED_LIBS=ON`. Shared libraries do bring some extra obligations, such
+as position-independent code and thinking about which symbols are visible, and
+the distinction resurfaces when we come to install and export a library.
+
+:::
+
 ### Linking libraries (`PRIVATE`)
 
 Library dependencies can be declared using the `target_link_libraries()` command:

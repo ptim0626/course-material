@@ -9,7 +9,11 @@ files: [
     04_subdirectories_and_the_cmake_language.md,
     05_targets_and_libraries.md,
     06_finding_dependencies.md,
-    07_more_cmake_features.md,
+    07_options_and_warnings.md,
+    08_build_presets.md,
+    09_reproducible_dependencies.md,
+    10_testing.md,
+    11_installing_and_packaging.md,
 ]
 learningOutcomes:
   - Explain what CMake is and why it is used to build C++ projects.
@@ -19,12 +23,18 @@ learningOutcomes:
   - Define executable and library targets and manage their dependencies with target visibility keywords.
   - Locate and link external dependencies using find_package.
   - Use CMake language features such as includes, conditionals, loops, functions and options.
+  - Capture build configurations in CMake presets for reproducible, shareable builds.
+  - Acquire dependencies reproducibly with FetchContent and package managers.
+  - Add and run tests with CTest and a unit-testing framework.
+  - Install and package a library so it can be consumed with find_package.
 summary: |
   CMake is a widely used, cross-platform build system generator for C++ projects.
   This course introduces the basics of CMake: writing CMakeLists.txt files to
   configure and build executables and libraries, structuring larger projects across
   subdirectories, finding and linking external dependencies, and using the CMake
-  language to make builds portable and reproducible.
+  language to make builds portable and reproducible. It then moves on to presets,
+  reproducible dependency management, testing with CTest, and installing and
+  packaging a library so it can be reused by other projects.
 attribution:
   - citation: >
       "Modern CMake" course developed by Fergus Cooper and the Oxford Research

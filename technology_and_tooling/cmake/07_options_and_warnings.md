@@ -1,5 +1,5 @@
 ---
-name: More CMake features
+name: Options and compiler warnings
 dependsOn: [technology_and_tooling.cmake.06_finding_dependencies]
 tags: [cpp]
 attribution:
@@ -172,12 +172,3 @@ cmake -S . -B build_dir -DWARNINGS_AS_ERRORS=OFF
 ```
 
 ::::
-
-
-## That's all, folks
-
-This was only the tiniest tip of the modern CMake iceberg. There are so many great resources available, and here are just a few of them:
-
-- [The CMake documentation (link)](https://cmake.org/cmake/help/latest/)
-- [An Introduction to Modern CMake](https://cliutils.gitlab.io/modern-cmake/)
-- [CMake basics, how does one write a good CMake project?](https://www.siliceum.com/en/blog/post/cmake_01_cmake-basics)
