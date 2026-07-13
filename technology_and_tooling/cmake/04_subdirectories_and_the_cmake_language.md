@@ -15,8 +15,8 @@ attribution:
 
 Now look at the next checkpoint in the `checkpoint_1` subdirectory, which looks like this:
 
-```bash
-CMakeLists.txt/
+```text
+CMakeLists.txt
 src/
     CMakeLists.txt
     functionality.cpp
@@ -40,7 +40,7 @@ to add the `src` directory to the project:
 add_subdirectory(src)
 ```
 
-This causes CMake to processes the `CMakeLists.txt` file in the directory `src`.
+This causes CMake to process the `CMakeLists.txt` file in the directory `src`.
 
 ```cmake
 # src/CMakeLists.txt
@@ -156,7 +156,7 @@ void new_function();
 #include "functionality.hpp"
 
 int main() {
-    std::cout << "Checkpoint 2" << std::endl;
+    std::cout << "Checkpoint 1" << std::endl;
     std::cout << "Hypergeometric probability: " << hypergeometricPmf(10'000, 4'270, 300, 128) << std::endl;
     new_function();
     return 0;
@@ -178,7 +178,7 @@ message(STATUS "Hello ${name}")
 ```
 
 ```output
--- The C compiler identification is GNU 8.3.0
+-- The CXX compiler identification is GNU 13.3.0
 ...
 -- Hello Jane Doe
 -- Configuring done

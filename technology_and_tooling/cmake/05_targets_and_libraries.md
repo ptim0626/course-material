@@ -43,7 +43,7 @@ Creating a library target is similar to an executable target, but uses the
 `add_library` command:
 
 ```cmake
-add_library(my_lib STATIC ${source_files})
+add_library(my_lib STATIC functionality.cpp functionality.hpp)
 ```
 
 Use `SHARED` instead of `STATIC` to build a shared library: or,

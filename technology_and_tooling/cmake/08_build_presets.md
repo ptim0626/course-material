@@ -68,7 +68,11 @@ add more features (for example _workflow presets_, which chain configure, build
 and test, arrived in version 6 / CMake 3.25).
 
 Note how `release` uses `"inherits": "default"` so it only has to state what
-differs. Presets are composable in this way, which keeps them tidy.
+differs. Presets are composable in this way, which keeps them tidy. Here that
+also means `release` inherits `binaryDir`, so both presets configure into the
+same `build_dir`, and switching between them reconfigures in place. If you would
+rather keep them side by side, give each preset its own directory, for instance
+`"binaryDir": "${sourceDir}/build_dir/${presetName}"`.
 
 ## Using presets
 
@@ -76,7 +80,17 @@ List what is available, then configure, build and test by name:
 
 ```bash
 cmake --list-presets
-   release
+```
+
+```output
+Available configure presets:
+
+  "default" - Default (Ninja, Debug)
+  "release" - Release
+```
+
+```bash
+cmake --preset release
 cmake --build --preset release
 ctest --preset default
 ```
@@ -94,9 +108,9 @@ the same format, is not meant to be committed, and is a good candidate for your
 
 ::::challenge{id=add-a-preset title="Add a preset"}
 
-Add a `CMakePresets.json` to one of the checkpoints with two configure presets:
-a `debug` preset using Ninja, and a `release` preset that inherits from it and
-sets `CMAKE_BUILD_TYPE` to `Release`. Configure and build the release preset with
+Add a `CMakePresets.json` to Checkpoint 5 with two configure presets: a `debug`
+preset using Ninja, and a `release` preset that inherits from it and sets
+`CMAKE_BUILD_TYPE` to `Release`. Configure and build the release preset with
 `cmake --preset release` and `cmake --build --preset release`.
 
 :::solution
@@ -122,6 +136,8 @@ sets `CMAKE_BUILD_TYPE` to `Release`. Configure and build the release preset wit
   ]
 }
 ```
+
+Checkpoints 6 and 7 each ship a `CMakePresets.json`, so you can compare.
 
 :::
 

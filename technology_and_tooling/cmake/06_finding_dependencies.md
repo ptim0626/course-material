@@ -21,8 +21,9 @@ installed**:
 find_package(library_name CONFIG REQUIRED)
 ```
 
-The above defines a new target (usually named `library_name`) that can now be linked
-against other targets using `target_link_libraries`.
+The above defines a new target that can now be linked against other targets using
+`target_link_libraries`. The target is usually _namespaced_, of the form
+`Package::Component` or `Package::Package`, for instance `Eigen3::Eigen`.
 
 ### "config" mode for `find_package`
 
@@ -65,7 +66,7 @@ add_library(cmake_course_lib STATIC
         functionality_eigen.hpp
 )
 target_include_directories(cmake_course_lib INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-  target_link_libraries(cmake_course_lib PRIVATE Eigen3::Eigen)
+target_link_libraries(cmake_course_lib PRIVATE Eigen3::Eigen)
 ```
 
 :::
@@ -118,7 +119,7 @@ only ship a `Find<PackageName>.cmake` module.
 
 ::::challenge{id=adding-boost-dep title="Adding the Boost dependency"}
 
-Look at Checkpoint 4. The executable `exe/main.cpp` depends on the [Boost Program Options](https://www.boost.org/doc/libs/1_74_0/doc/html/program_options.html)
+Look at Checkpoint 4. The executable `exe/main.cpp` depends on the [Boost Program Options](https://www.boost.org/doc/libs/latest/doc/html/program_options.html)
 library for handling command line arguments.
 
 Task: Using `find_package` in `CONFIG` mode, modify the `CMakeLists.txt` in directory `exe/` to

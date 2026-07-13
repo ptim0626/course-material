@@ -24,7 +24,7 @@ learningOutcomes:
   - Locate and link external dependencies using find_package.
   - Use CMake language features such as includes, conditionals, loops, functions and options.
   - Capture build configurations in CMake presets for reproducible, shareable builds.
-  - Acquire dependencies reproducibly with FetchContent and package managers.
+  - Acquire dependencies reproducibly with FetchContent, and know where package managers fit.
   - Add and run tests with CTest and a unit-testing framework.
   - Install and package a library so it can be consumed with find_package.
 summary: |
@@ -54,4 +54,10 @@ This course introduces the basics of CMake. Starting from a simple "hello, world
 executable, you will learn how to write `CMakeLists.txt` files, configure and
 build a project, structure larger projects across subdirectories, define library
 and executable targets, find and link external dependencies, and use features of
-the CMake language to make your builds portable and reproducible.
+the CMake language to make your builds portable and reproducible. It then goes
+further, into build presets, fetching dependencies, testing with CTest, and
+installing a library so that other projects can find and use it.
+
+The course is accompanied by a series of checkpoints, each a small C++ project to
+work through, in the
+[IntroCMakeCourse repository](https://github.com/OxfordRSE/IntroCMakeCourse).

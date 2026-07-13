@@ -23,7 +23,7 @@ functionality across projects.
 # CMakeLists.txt
 cmake_minimum_required(VERSION 3.24...3.31)
 project(IntroCMakeCourse LANGUAGES CXX)
-include(file_to_include.cmake)
+include(cmake/file_to_include.cmake)
 
 set(name "Foo Bar")
 message(STATUS "Hello ${name}")

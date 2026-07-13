@@ -199,7 +199,7 @@ fmt::print("Hypergeometric probability: {:.4f}\n",
 The first configure will be slower, since CMake clones and builds `fmt`. After
 that it is cached in the build directory.
 
-See Checkpoint 6 for a complete version.
+Checkpoint 6 has this, alongside the tests we add in the next section.
 
 :::
 
