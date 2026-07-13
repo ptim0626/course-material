@@ -296,9 +296,9 @@ describe your data?
 ::::
 
 :::solution
-Free text could vary among researchers while controlled vocabularies use
-standardised terms with predefined meanings, which allow computational agents
-to process and integrate data from different sources.
+Interpretation of free text vary among researchers while controlled
+vocabularies use standardised terms with predefined meanings, which allow
+computational agents to process and integrate data from different sources.
 :::
 
 ::::challenge{id=interoperable-q2 title="Interoperable Q2"}
