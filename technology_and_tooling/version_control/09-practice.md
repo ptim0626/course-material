@@ -118,3 +118,14 @@ Most IDEs (VS Code, PyCharm, RStudio) also have Git integration built in.
 
 - [Pro Git](https://git-scm.com/book/en/v2): the free, comprehensive Git book.
 - [Software Carpentry: Version Control with Git](http://swcarpentry.github.io/git-novice/).
+
+:::callout{variant="keypoints"}
+
+## Key Points
+
+- Start using Git in your own projects straight away - `git init`, add your files, and commit.
+- Give every repository a `README.md` (what it does) and a `LICENSE` (how others may use it).
+- Windows users can use Git directly via **Git Bash**, repeating the `git config` and SSH setup there.
+- The optional **(Advanced)** episodes (rebase, bisect, the Git toolbox, multiple remotes) are there when you need them.
+
+:::

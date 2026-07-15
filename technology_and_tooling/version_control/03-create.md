@@ -182,3 +182,32 @@ Git works on **commits** - snapshots of the current state of the repository. _"n
 In this workshop, we have a **default branch** called **main**. In older versions of Git,
 if you create a new repository on the command line, it'll have a default branch called **master**, and a lot of examples online will show **master** instead of **main**. Don't worry - branches work the same, regardless of what they're called!
 :::
+
+## Exercises
+
+::::challenge{id=clone-vs-init title="Exercise: clone or init?"}
+
+For each situation, would you use `git clone` or `git init`?
+
+1. You want to start tracking a folder of scripts that already exists only on your laptop.
+2. You want a local copy of a project that already lives on GitHub.
+
+:::solution
+
+1. `git init` - it turns an existing local directory into a repository. (You'd then create an empty GitHub repo and `git remote add origin ...` to back it up.)
+2. `git clone <url>` - it downloads the remote repository and automatically sets it up as `origin`.
+
+:::
+::::
+
+:::callout{variant="keypoints"}
+
+## Key Points
+
+- `git clone <url>` downloads a remote repository and links it as `origin` automatically.
+- `git init` turns an existing local directory into a repository; connect it to a remote with `git remote add origin <url>`.
+- Every repository has a hidden `.git` directory holding its entire history - don't delete it.
+- `git status` shows the state of your working directory relative to the last commit.
+- Clone with **SSH**, not HTTPS, so you don't have to type credentials each time.
+
+:::

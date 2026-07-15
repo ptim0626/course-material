@@ -118,3 +118,15 @@ git bisect reset
 This is a strong argument for keeping a good test suite: with automated tests,
 finding _when_ a regression was introduced becomes a single command.
 :::
+
+:::callout{variant="keypoints"}
+
+## Key Points
+
+- `git bisect` runs a **binary search** through history to find the commit that introduced a bug.
+- Start with `git bisect start`, then mark one `good` and one `bad` commit.
+- Answer `good`/`bad` at each step, or automate the whole search with `git bisect run <command>`.
+- Finish with `git bisect reset` to return to where you started.
+- A reliable test suite turns finding a regression into a single command.
+
+:::

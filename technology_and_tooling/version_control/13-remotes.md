@@ -137,3 +137,14 @@ git push -u myserver main
 
 This is a handy way to collaborate through a shared filesystem or a lab server
 when you don't want to (or can't) use a public hosting service.
+
+:::callout{variant="keypoints"}
+
+## Key Points
+
+- Git is **distributed**: every clone is a full repository, and you can connect to many remotes at once.
+- `git remote add <name> <url>` adds a second remote (e.g. `upstream`) alongside `origin`.
+- After `git fetch`, compare against references like `origin/main` and `upstream/main`; `git branch -vv` shows tracking status.
+- `git init --bare` creates a repository suitable for pushing to - host one yourself over SSH or a shared filesystem.
+
+:::

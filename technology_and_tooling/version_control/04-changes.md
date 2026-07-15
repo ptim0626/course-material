@@ -222,9 +222,9 @@ but we haven't told Git we will want to save those changes
 (which we do with `git add`)
 much less actually saved them (which we do with `git commit`).
 
-::::callout{variant="warning"}
+:::callout{variant="note"}
 It's important to remember that git only stores changes when you make a commit!
-::::
+:::
 
 ### Review Changes and Commit
 
@@ -434,3 +434,45 @@ To recap, when we want to add changes to our repository,
 we first need to add the changed files to the staging area
 (`git add`) and then commit the staged changes to the
 repository (`git commit`).
+
+## Exercises
+
+::::challenge{id=modify-add-commit title="Exercise: A full modify-add-commit cycle"}
+
+Add a line to `README.md` describing what data the toolkit expects, then record it as a commit. Which commands do you run, and in which order?
+
+:::solution
+
+```bash
+nano README.md          # make the edit and save (or use a text editor or IDE to make the edit)
+git add README.md       # stage the change
+git commit -m "Describe expected input data"
+```
+
+You can confirm each step with `git status`, and check the change was recorded with `git log`.
+
+:::
+::::
+
+::::challenge{id=diff-vs-staged title="Exercise: diff vs diff --staged"}
+
+You edit a file and run `git add` on it, then run `git diff` and see **no output**. Has your change been lost? How can you see it?
+
+:::solution
+
+No - the change is safe, it's just been **staged**. `git diff` compares your working directory against the **staging area**, and they now match. To see what's staged (the difference between the staging area and the last commit), use `git diff --staged`.
+
+:::
+::::
+
+:::callout{variant="keypoints"}
+
+## Key Points
+
+- Recording work is a three-step cycle: **modify** a file, `git add` it to the staging area, then `git commit`.
+- `git add` stages changes; `git commit -m "..."` saves the staged snapshot permanently in `.git`.
+- The **staging area** lets you bundle related changes into one coherent commit.
+- `git diff` shows working-directory-vs-staged changes; `git diff --staged` shows staged-vs-last-commit.
+- `git status` tells you what's changed; `git log` shows the history of commits.
+
+:::

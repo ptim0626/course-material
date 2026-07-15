@@ -125,3 +125,14 @@ you haven't committed yet untouched.
 recovered from history. Always preview with `git clean -n` before committing to
 `-f`.
 :::
+
+:::callout{variant="keypoints"}
+
+## Key Points
+
+- `git stash` / `git stash pop` temporarily set aside uncommitted work (for example, so you can pull).
+- `git tag -a v1.0` labels a specific commit - ideal for releases or the version used in a paper.
+- `git add -p` stages changes one **hunk** at a time, so a single file can go into several focused commits.
+- `git clean` deletes untracked files - always preview with `git clean -n` before using `-f`.
+
+:::

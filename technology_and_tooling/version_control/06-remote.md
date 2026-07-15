@@ -62,7 +62,7 @@ And we're done! This bit was easy as when we used `git clone` earlier, it set up
 ## What _is_ a Branch, Though?
 
 Branches allow you to have alternate versions of the code 'branching off' from another branch (e.g. `main`).
-You can try out new features in these branches without disrupting your `main` version of the code, then **merge them in** once you've finished. We have a **Stretch Episode** that gives you a brief introduction to them!
+You can try out new features in these branches without disrupting your `main` version of the code, then **merge them in** once you've finished. The **Branches** episode later in this course gives you a proper introduction to them!
 :::
 
 If we go back to the repository on GitHub, we can refresh the page and see our updates to the code:
@@ -199,7 +199,7 @@ hint: invocation.
 fatal: Need to specity how to reconcile divergent branches
 ```
 
-We want to default to **merging**. **Fast forward** and **rebase** are advanced options you'd typically only see used in large teams in industry. So as git suggests, we can fix it our problem with:
+We want to default to **merging**. **Fast forward** and **rebase** are more advanced options (covered in the optional **Rebasing and Squashing** episode later in this course). So as git suggests, we can fix our problem with:
 
 ```bash
 git config --global pull.rebase false
@@ -298,3 +298,31 @@ Each collaborator can work on their own branch, and only merge them back in once
 :::
 
 ![Remote Repository Commands](fig/06-remote/remote.png)
+
+## Exercises
+
+::::challenge{id=rejected-push title="Exercise: A rejected push"}
+
+You try to `git push` and Git rejects it, saying the remote _contains work that you do not have locally_. What sequence of steps gets your work pushed?
+
+:::solution
+
+1. `git pull` to bring the remote commits into your local repository.
+2. If Git reports a **merge conflict**, open the file(s), remove the `<<<<`, `====`, `>>>>` markers and keep the text you want.
+3. `git commit` the resolved merge (if there was a conflict).
+4. `git push` again - it now succeeds.
+
+:::
+::::
+
+:::callout{variant="keypoints"}
+
+## Key Points
+
+- `git push` sends local commits to the remote; `git pull` fetches and merges remote commits into your local copy.
+- `git clone` sets up your local `main` to **track** the remote `main` automatically.
+- A push is rejected if the remote has commits you don't; `git pull` first to reconcile.
+- Conflicts are marked with `<<<<<<<`, `=======`, `>>>>>>>`; edit the file to resolve, then commit.
+- Push often - it's your off-site backup.
+
+:::

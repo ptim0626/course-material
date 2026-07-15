@@ -341,6 +341,39 @@ projects with the **fork-and-pull** workflow are covered in depth in the separat
 [Collaboration on GitHub](../../software_project_management/collaboration) course.
 :::
 
+## Exercises
+
+::::challenge{id=feature-branch title="Exercise: Work on a feature branch"}
+
+Create a branch called `feature-plots`, add and commit a change on it, then merge that work back into `main`. What commands do you use?
+
+:::solution
+
+```bash
+git switch -c feature-plots     # create and switch to the branch
+nano plotting.py                # make your change (or use a text editor or IDE)
+git add plotting.py
+git commit -m "Add plotting helper"
+git switch main                 # go back to main
+git merge feature-plots         # bring the work in
+```
+
+(`git switch -c` is the modern form of `git checkout -b`.)
+
+:::
+::::
+
+:::callout{variant="keypoints"}
+
+## Key Points
+
+- A **branch** is a parallel line of development; list them with `git branch`, move between them with `git switch`.
+- Commits made on a branch stay on that branch until you **merge** them.
+- Publish a new branch with `git push -u origin <branch>`; `-u` sets it to track the remote.
+- Merge finished work back with `git merge <branch>`; in a team, a **Pull Request** is usually better.
+
+:::
+
 ## Advanced: more branch operations
 
 :::callout{variant="tip"}
@@ -414,3 +447,9 @@ The `main` / `dev` / feature-branch pattern described above is a good default. A
 projects grow, teams often add **release branches** - created when code is shared
 or published - so that isolated bug fixes can be made against a released version
 without disturbing ongoing development.
+
+:::callout{variant="tip"}
+So far we've worked with a single remote (`origin`). If you need to work with more
+than one remote at once - for example your own fork alongside the original project -
+see the optional **Multiple Remotes and Self-Hosting** episode later in this course.
+:::

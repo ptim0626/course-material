@@ -136,3 +136,40 @@ nothing to commit, working directory clean
 Force adding can be useful for adding a `.gitkeep` file. You can't add empty directories to a repository- they have to have some files within them. But if your code expects there to be a `results/` directory to output to, for example, this can be a problem. Users will run your code, and have it error out at a missing directory and have to create it themselves.
 
 Instead, we can create an empty `.gitkeep` file using `touch` in the `results/` directory, and force-add it. As it starts with a `.`, it's a special file and won't appear in `ls` (only `ls -a`), but it will ensure that the directory structure is kept as part of your repository.
+
+:::callout{variant="tip"}
+Once you're ignoring generated files, the `git clean` command is a handy way to
+**delete** those untracked files in bulk when you want a fresh working directory.
+It's covered in the optional **A Git Toolbox** episode later in this course.
+:::
+
+## Exercises
+
+::::challenge{id=ignore-pattern title="Exercise: Ignore generated data"}
+
+Your analysis writes lots of `*.csv` output files you don't want to track, but there's one file, `data/reference.csv`, that you *do* want in the repository. How can you arrange your `.gitignore` to handle this?
+
+:::solution
+
+Ignore the pattern, then re-include the exception with a leading `!`:
+
+```text
+*.csv
+!data/reference.csv
+```
+
+Alternatively, force-add the one file with `git add -f data/reference.csv`, but the negation pattern is cleaner as it's shared with everyone who clones the repository.
+
+:::
+::::
+
+:::callout{variant="keypoints"}
+
+## Key Points
+
+- A `.gitignore` file lists patterns (e.g. `*.dat`, `results/`) for files Git should not track.
+- Commit `.gitignore` itself so collaborators ignore the same things; re-include exceptions with `!pattern`.
+- `git add -f` force-adds a file that would otherwise be ignored.
+- `git status --ignored` lists ignored files; a `.gitkeep` file lets you commit an otherwise-empty directory.
+
+:::

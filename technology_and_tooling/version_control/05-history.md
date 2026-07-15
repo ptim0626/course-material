@@ -321,6 +321,48 @@ happens, resolve it by hand exactly as you did for merge conflicts in the previo
 episode.
 :::
 
+## Exercises
+
+::::challenge{id=recover-file title="Exercise: Recover a deleted file"}
+
+You run `rm climate_analysis.py` by mistake - the file is gone from your working directory, but you committed it earlier. How do you get it back?
+
+:::solution
+
+Because the deletion hasn't been committed, restore it from the last commit:
+
+```bash
+git restore climate_analysis.py
+```
+
+(On older Git, `git checkout -- climate_analysis.py`.) If you'd already committed the deletion, you could bring it back with `git checkout HEAD~1 climate_analysis.py`.
+
+:::
+::::
+
+::::challenge{id=revert-or-reset title="Exercise: revert or reset?"}
+
+You committed a change that broke your analysis, **and you've already pushed it** to GitHub where a collaborator has pulled it. Do you use `git revert` or `git reset` to undo it, and why?
+
+:::solution
+
+Use **`git revert`**. It adds a new commit that undoes the change without altering existing history, so it's safe for commits others already have. `git reset` rewrites history and must only be used on local commits you haven't shared.
+
+:::
+::::
+
+:::callout{variant="keypoints"}
+
+## Key Points
+
+- `HEAD` is the latest commit; refer to earlier ones with `HEAD~1`, `HEAD~2`, ... (or specific commit IDs).
+- `git diff <commit>` compares your files against any past commit; short 7-character IDs are enough.
+- Recover a changed or deleted file from the last commit with `git restore` (or `git checkout`).
+- Undo a **committed** change safely with `git revert`, which adds an "antipatch" and keeps history intact.
+- `git reset` rewrites history and can lose work - only use it on local commits you haven't shared (advanced).
+
+:::
+
 ## Advanced: rewriting history with `reset`
 
 :::callout{variant="tip"}
@@ -333,7 +375,8 @@ safely skip it: `git revert` above is almost always what you want.
 
 Where `git revert` _adds_ a commit that undoes a change, `git reset` can move
 `HEAD` **backwards**, removing commits from the current branch's history entirely
-as if they had never happened.
+as if they had never happened. (For more ways of rewriting history, see the
+optional **Rebasing and Squashing** episode later in this course.)
 
 Say we just made a bad commit:
 

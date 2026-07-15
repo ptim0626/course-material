@@ -214,3 +214,15 @@ get badly tangled.
 Only rebase commits that are still **private** to your local repository. If in
 doubt, just **merge**.
 :::
+
+:::callout{variant="keypoints"}
+
+## Key Points
+
+- A **merge** keeps both histories and adds a merge commit; a **rebase** replays your commits to give a linear history.
+- Rebasing creates **new** commits (new hashes) - it rewrites history.
+- A **fast-forward** merge just moves a branch label when there's nothing to reconcile.
+- `git rebase -i` lets you **squash** several commits into one before sharing.
+- **Never** rebase commits you've already pushed or shared; if in doubt, merge.
+
+:::
