@@ -5,12 +5,20 @@ tags: [git]
 learningOutcomes:
   - Describe the use of branching in version control.
   - Use git branch and git merge commands effectively.
+  - Delete branches and compare branches once work is complete.
 attribution:
   - citation: >
       This material was originally taken from training materials developed by the
       University of Southampton Research Software Group, which are based on
       the Software Carpentries course "Version Control with Git".
     url: https://github.com/Southampton-RSG-Training/git-novice/
+    image: https://southampton-rsg-training.github.io/git-novice/assets/img/home-logo.png
+    license: CC-BY-4.0
+  - citation: >
+      Additional material was adapted from the OxfordRSE "Git and GitHub" course, a
+      derivative work of the UCL Research Software Development Group teaching
+      materials and the Software Carpentry "Version Control with Git" lesson.
+    url: https://github.com/OxfordRSE/git-github-course
     image: https://southampton-rsg-training.github.io/git-novice/assets/img/home-logo.png
     license: CC-BY-4.0
 ---
@@ -323,3 +331,86 @@ Then, once you've taken a proper look and you're happy with your changes, you ca
 through the GitHub web interface.
 If you're working as part of a team, it's better to make a **Pull Request** than use than `git merge`.
 :::
+
+:::callout{variant="tip"}
+
+## Collaborating on shared projects
+
+Pull Requests, code review, GitHub Issues, and contributing to _other people's_
+projects with the **fork-and-pull** workflow are covered in depth in the separate
+[Collaboration on GitHub](../../software_project_management/collaboration) course.
+:::
+
+## Advanced: more branch operations
+
+:::callout{variant="tip"}
+
+## Advanced: safe to skip
+
+The everyday workflow above (create a branch, commit, push, merge or open a Pull
+Request) is all most people need. The operations below are handy once you work
+with branches regularly, but you can safely skip them for now.
+:::
+
+### Deleting branches
+
+Once a branch has been merged, you usually want to tidy it away. To delete a
+**local** branch:
+
+```bash
+git branch -d dev
+```
+
+Git refuses (with `-d`) to delete a branch whose changes haven't been merged, to
+stop you losing work. If you really do want to discard an unmerged branch, use the
+capital `-D`.
+
+To delete the branch on the **remote** as well:
+
+```bash
+git push --delete origin dev
+```
+
+(You can also delete remote branches from the GitHub web interface.)
+
+### Comparing branches
+
+Git has a compact notation for asking "what is on one branch but not another".
+The double-dot `A..B` means "commits that are on `B` but not on `A`":
+
+```bash
+git log main..dev --oneline
+```
+
+lists the commits on `dev` that haven't yet been merged into `main`. The
+triple-dot `A...B` means "commits on _either_ branch but not both" - the
+differences between them - and pairs nicely with `--left-right` to show which side
+each commit is on:
+
+```bash
+git log --left-right --oneline main...dev
+```
+
+### Grabbing a single file from another branch
+
+You can pull one file out of another branch without switching to it or merging:
+
+```bash
+git checkout dev rainfall_conversion.py
+```
+
+This copies `rainfall_conversion.py` as it exists on `dev` into your current
+branch, overwriting your version. To copy the _change_ introduced by a specific
+commit (rather than a whole file) and apply it to your current branch, use
+**cherry-pick**:
+
+```bash
+git cherry-pick <commit>
+```
+
+### A note on branch strategies
+
+The `main` / `dev` / feature-branch pattern described above is a good default. As
+projects grow, teams often add **release branches** - created when code is shared
+or published - so that isolated bug fixes can be made against a released version
+without disturbing ongoing development.

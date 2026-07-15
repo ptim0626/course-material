@@ -6,12 +6,20 @@ learningOutcomes:
   - Identify and use Git revision numbers.
   - Analyse files by comparing them with previous versions.
   - Describe the process of restoring previous versions of files.
+  - Undo a committed change safely with git revert.
 attribution:
   - citation: >
       This material was originally taken from training materials developed by the
       University of Southampton Research Software Group, which are based on
       the Software Carpentries course "Version Control with Git".
     url: https://github.com/Southampton-RSG-Training/git-novice/
+    image: https://southampton-rsg-training.github.io/git-novice/assets/img/home-logo.png
+    license: CC-BY-4.0
+  - citation: >
+      Additional material was adapted from the OxfordRSE "Git and GitHub" course, a
+      derivative work of the UCL Research Software Development Group teaching
+      materials and the Software Carpentry "Version Control with Git" lesson.
+    url: https://github.com/OxfordRSE/git-github-course
     image: https://southampton-rsg-training.github.io/git-novice/assets/img/home-logo.png
     license: CC-BY-4.0
 ---
@@ -180,7 +188,7 @@ or you can even use text to ask more advanced questions, like `git diff HEAD@{"y
 ### Restoring Files
 
 All right:
-we can **save changes** to files and **see what we've changed** &mdash; suppose we need to **restore** older versions of things?
+we can **save changes** to files and **see what we've changed** - suppose we need to **restore** older versions of things?
 
 Let's suppose we **accidentally** overwrite or delete our file:
 
@@ -273,10 +281,107 @@ and you fixed a bug in one section but accidentally introduced one elsewhere.
 You can't just roll back to fix one bug without un-fixing the other.
 However, if each section is in its own file, you can just roll back the section you broke!
 
-## Resetting files
+## Undoing a commit with `git revert`
 
-A command that you may encounter in future is `git reset` which, unlike `git checkout`
-can move what `HEAD` is pointing to whilst not affecting the local files. This is not
-covered in detail in this course because misuse of `git reset` can get your local repo
-in a confusing state, and in particular that `git reset --hard` must be treated with
-caution because it's possible to lose your local work.
+Restoring a file fixes a mistake in your **working directory**. But what if you've
+already **committed** a change that turns out to be wrong, and you want to undo the
+whole commit?
+
+The safe way to do this is `git revert`. Suppose we committed a change we now
+regret. We can undo the most recent commit with:
+
+```bash
+git revert HEAD
+```
+
+An editor will pop up with a default commit message (something like
+`Revert "..."`), which you can accept and save. Git then creates a **new commit**
+that applies the exact opposite of the change, sometimes called an _antipatch_.
+
+```bash
+git log --oneline
+```
+
+```text
+b7f3a21 Revert "Add incorrect rainfall units"
+a1b2c3d Add incorrect rainfall units
+fd30d36 Add rainfall processing placeholder
+```
+
+Notice that **the mistake stays in the history**: there is one commit that made
+the change, and another that undoes it. This is a _good_ thing - you keep a full,
+honest record of what happened, including the error and its correction, and
+because you only ever _add_ commits, `revert` is safe to use even on changes you've
+already pushed and shared.
+
+:::callout
+If the change you're reverting overlaps with later edits, Git may not be able to
+work out how to undo it automatically and will report a **conflict**. If that
+happens, resolve it by hand exactly as you did for merge conflicts in the previous
+episode.
+:::
+
+## Advanced: rewriting history with `reset`
+
+:::callout{variant="tip"}
+
+## Advanced: safe to skip
+
+This section rewrites history and can lose work if used carelessly. Beginners can
+safely skip it: `git revert` above is almost always what you want.
+:::
+
+Where `git revert` _adds_ a commit that undoes a change, `git reset` can move
+`HEAD` **backwards**, removing commits from the current branch's history entirely
+as if they had never happened.
+
+Say we just made a bad commit:
+
+```bash
+git log --oneline
+```
+
+```text
+9a0b1c2 Add a silly spelling mistake
+fd30d36 Add rainfall processing placeholder
+```
+
+We can drop that last commit with:
+
+```bash
+git reset HEAD~1
+```
+
+```bash
+git log --oneline
+```
+
+```text
+fd30d36 Add rainfall processing placeholder
+```
+
+The silly commit is **no longer in the log**. By default `reset` leaves your
+**working directory unchanged**, so the edited file is still there and you can keep
+or re-do the work. If you also want to throw away the changes in your working
+directory, you can use `git reset --hard` - but be careful, as this **permanently
+discards** those local changes.
+
+:::callout
+
+## `HEAD~n` and `HEAD^`
+
+You'll see two notations for "recent commits":
+
+- `HEAD~1`, `HEAD~2`, `HEAD~3`: one, two, three commits before `HEAD`.
+- `HEAD^`, `HEAD^^`: a shorthand for one and two commits back.
+
+So `git reset HEAD^` and `git reset HEAD~1` do the same thing. (The two notations
+differ only when a commit has _multiple parents_, such as a merge commit.)
+:::
+
+:::callout{variant="danger"}
+Because `reset` rewrites history, **never use it on commits you've already pushed
+or shared** - others may already have them. Use it only for tidying up local,
+un-pushed commits (for example, to fix a commit message). If in doubt, use
+`git revert` instead.
+:::

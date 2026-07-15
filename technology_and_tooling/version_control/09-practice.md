@@ -1,16 +1,24 @@
 ---
 name: Practice and personal use
-dependsOn: [technology_and_tooling.version_control.09-practice]
+dependsOn: [technology_and_tooling.version_control.08-ignore]
 tags: [git]
 learningOutcomes:
   - Continued use in your own work and projects
   - Good git practice
+  - Know where to go next to deepen your Git skills
 attribution:
   - citation: >
       This material was originally taken from training materials developed by the
       University of Southampton Research Software Group, which are based on
       the Software Carpentries course "Version Control with Git".
     url: https://github.com/Southampton-RSG-Training/git-novice/
+    image: https://southampton-rsg-training.github.io/git-novice/assets/img/home-logo.png
+    license: CC-BY-4.0
+  - citation: >
+      Additional material was adapted from the OxfordRSE "Git and GitHub" course, a
+      derivative work of the UCL Research Software Development Group teaching
+      materials and the Software Carpentry "Version Control with Git" lesson.
+    url: https://github.com/OxfordRSE/git-github-course
     image: https://southampton-rsg-training.github.io/git-novice/assets/img/home-logo.png
     license: CC-BY-4.0
 ---
@@ -70,3 +78,43 @@ code; no license implies that your work is closed source. When you create a new
 repository, you can choose to automatically add a particular type of license.
 If in doubt and you're happy to share your work, use a permissive license like MIT.
 The content of the LICENSE file is plain text.
+
+## Going further
+
+We've deliberately focused on the **command-line interface** to Git throughout this
+course, because it's universally available and makes Git's behaviour explicit. Once
+you're comfortable, you may want to explore the following.
+
+### Optional advanced modules
+
+The remaining modules in this course are optional and marked _(Advanced)_. Come
+back to them whenever you meet the problem each one solves:
+
+- **Rebasing and Squashing**: produce a clean, linear history.
+- **Finding Bugs with git bisect**: locate the commit that introduced a bug.
+- **A Git Toolbox**: `git stash`, tags, interactive staging, and `git clean`.
+- **Multiple Remotes and Self-Hosting**: work with more than one remote and run
+  your own Git server.
+
+### Graphical clients
+
+For day-to-day work you may prefer a graphical interface to Git:
+
+- [GitHub Desktop](https://desktop.github.com/): Windows and macOS (and
+  [Linux](https://github.com/shiftkey/desktop)).
+- [GitKraken](https://www.gitkraken.com/git-client): Windows, macOS, and Linux.
+
+Most IDEs (VS Code, PyCharm, RStudio) also have Git integration built in.
+
+### Related courses
+
+- [Collaboration on GitHub](../../software_project_management/collaboration) -
+  feature-branch workflow, Pull Requests, code review, GitHub Issues, and the
+  fork-and-pull model.
+- [Continuous Integration](../../software_project_management/continuous_integration)
+  - automatically test and check your code on every push using GitHub Actions.
+
+### Books and tutorials
+
+- [Pro Git](https://git-scm.com/book/en/v2): the free, comprehensive Git book.
+- [Software Carpentry: Version Control with Git](http://swcarpentry.github.io/git-novice/).
