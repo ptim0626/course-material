@@ -35,7 +35,15 @@ target_include_directories(main_executable
 )
 ```
 
-_Properties are different from variables!_
+_Properties are different from variables!_ A variable is just a name with a
+value, scoped to the directory or function it was set in, and it has no
+connection to anything you are building. A property is attached to a particular
+target, and travels with it: when something links that target, the target's
+`INTERFACE` properties are applied to whatever linked it.
+
+That propagation is what makes the target-based style work, and it is why the
+rest of this section is about attaching things to targets rather than setting
+variables.
 
 ### Creating a library target
 
@@ -115,6 +123,13 @@ Picture another dependency scenario:
 ```cmake
 target_link_libraries(another_target INTERFACE my_lib)
 ```
+
+The usual case for this is a header-only library. `another_target` has no source
+files of its own to compile, so there is nothing that could use `my_lib`
+privately, but anything that includes its headers will need `my_lib` too. Eigen,
+which we meet in the next section, is exactly this: `Eigen3::Eigen` is a header-only
+target that carries include directories to whatever links it, and compiles
+nothing itself.
 
 ### Behaviour of target properties across dependencies
 

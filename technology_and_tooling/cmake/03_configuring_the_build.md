@@ -33,7 +33,6 @@ You can build the same way regardless of the generator, because `cmake --build`
 drives whichever tool CMake generated for:
 
 ```bash
-cmake -S . -B build_dir -G Ninja
 cmake --build build_dir --target main_executable
 ```
 
@@ -55,7 +54,16 @@ cmake -S . -B build_dir -DCMAKE_CXX_COMPILER=clang++
 ```
 
 Another common task is setting the optimisation level. CMake provides several
-default configurations: Debug, Release, RelWithDebInfo and MinSizeRel.
+default configurations:
+
+- **Debug**: no optimisation, with debug symbols, for stepping through code in a
+  debugger.
+- **Release**: fully optimised, no debug symbols, and assertions disabled. What
+  you would ship to users.
+- **RelWithDebInfo**: optimised, but keeping debug symbols, which is useful for
+  profiling or for debugging a problem that only appears in an optimised build.
+- **MinSizeRel**: optimised for small binary size rather than speed, which
+  matters mostly on embedded targets.
 
 ```bash
 cmake -S . -B build_dir -DCMAKE_BUILD_TYPE=Release

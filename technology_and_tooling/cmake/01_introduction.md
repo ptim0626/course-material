@@ -111,8 +111,8 @@ will only cover the basics here.
 In [CMake](https://cmake.org/) you describe *targets* (what to build), *inputs* (the sources files),
 and *configuration* (what libraries to use, what compiler settings, etc.).
 
-CMake uses that with its own *rules* (how to turn sources into programs) to
-generate makefiles, IDE projects, or other outputs. CMake doesn't build your
-project itself.
+From that description, CMake *generates* the rules for a build tool of your
+choosing: a Makefile, a Ninja build file, an IDE project, or something else.
+CMake doesn't build your project itself, and you don't write the rules by hand.
 
 CMake works on Linux, Windows, macOS and more.

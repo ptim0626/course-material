@@ -27,10 +27,6 @@ The above defines a new target that can now be linked against other targets usin
 
 ### "config" mode for `find_package`
 
-```cmake
-find_package(library_name CONFIG REQUIRED)
-```
-
 In "config mode", `find_package` will search for a
 `<PackageName>Config.cmake` file.
 
@@ -38,6 +34,34 @@ This file specifies all the information CMake needs (particularly where
 the library is installed).
 
 This is usually given by the library vendor.
+
+These files are installed alongside the libraries themselves, so you can see
+what your own system already provides. On a Debian-based system, most of them
+live under `/usr/lib/x86_64-linux-gnu/cmake/`:
+
+```bash
+ls /usr/lib/x86_64-linux-gnu/cmake/
+```
+
+```output
+[...]  Boost-1.83.0  boost_headers-1.83.0  boost_program_options-1.83.0  [...]
+```
+
+Architecture-independent packages, such as header-only libraries, tend to live
+under `/usr/share/` instead. Eigen is one of these:
+
+```bash
+ls /usr/share/eigen3/cmake/
+```
+
+```output
+Eigen3Config.cmake  Eigen3ConfigVersion.cmake  Eigen3Targets.cmake  UseEigen3.cmake
+```
+
+Both are on CMake's default search path, so `find_package` locates them without
+being told where to look. A package installed somewhere else, for instance into
+`/opt` or a directory in your home, is found by adding that prefix to
+`CMAKE_PREFIX_PATH`, which we return to when we install a library of our own.
 
 ::::challenge{id=adding-eigen-dep title="Adding the Eigen dependency"}
 

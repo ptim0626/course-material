@@ -98,7 +98,10 @@ Now we can tell CMake what to build. We do this with the `add_executable` comman
 add_executable(main_executable main.cpp)
 ```
 
-There is a program, called `main_executable`, which depends on the source code in `main.cpp`
+This defines a _target_ called `main_executable`, built from the source code in
+`main.cpp`. A target is the unit CMake works in: something to be built, together
+with everything known about how to build it. We will have a lot more to say
+about targets later in the course.
 
 ### Using CMake
 
