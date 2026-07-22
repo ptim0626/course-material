@@ -90,10 +90,10 @@ you're comfortable, you may want to explore the following.
 The remaining modules in this course are optional and marked _(Advanced)_. Come
 back to them whenever you meet the problem each one solves:
 
-- **Rebasing and Squashing**: produce a clean, linear history.
-- **Finding Bugs with git bisect**: locate the commit that introduced a bug.
-- **A Git Toolbox**: `git stash`, tags, interactive staging, and `git clean`.
-- **Multiple Remotes and Self-Hosting**: work with more than one remote and run
+- [**Rebasing and Squashing**](./10-rebase) - produce a clean, linear history.
+- [**Finding Bugs with git bisect**](./11-bisect) - locate the commit that introduced a bug.
+- [**A Git Toolbox**](./12-toolbox) - `git stash`, tags, interactive staging, and `git clean`.
+- [**Multiple Remotes and Self-Hosting**](./13-remotes) - work with more than one remote and run
   your own Git server.
 
 ### Graphical clients

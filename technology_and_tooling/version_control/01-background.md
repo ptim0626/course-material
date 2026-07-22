@@ -83,7 +83,7 @@ Because Git is so popular, and making a GitHub account is so easy, we're going t
 
 ## Graphical User Interfaces
 
-We're going to teach you how to use Git on the _command line_, as it's the same on every single platform (Mac, Linux & Windows) - and it's the only way to use it on high-performance clusters like Iridis. This isn't the only way to use it, however. There are many different graphical user interfaces for Git, like:
+We're going to teach you how to use Git on the _command line_, as it's the same on every single platform (Mac, Linux & Windows) - and it's the only way to use it on a high-performance cluster, such as your institution's supercomputer. This isn't the only way to use it, however. There are many different graphical user interfaces for Git, like:
 
 ### [SourceTree](https://www.sourcetreeapp.com/)
 
@@ -98,11 +98,11 @@ We're going to teach you how to use Git on the _command line_, as it's the same 
 ![GitHub Desktop](fig/01-background/desktop.png)
 
 Fundamentally, though, these are all just 'wrappers' around the command line version of Git.
-If you understand what they're doing under the hood, you can easily switch between versions. You can, for example, manage your code on Iridis using command-line git and GitHub Desktop on your desktop workstation.
+If you understand what they're doing under the hood, you can easily switch between versions. You can, for example, manage your code on a remote HPC cluster using command-line git and GitHub Desktop on your desktop workstation.
 
 :::callout
 
-## Git GUI Integrations
+## Git IDE Integrations
 
 Most code editors and Integrated Development Environments (or IDEs) integrate Git into their UI,
 so you can easily see the state of your files and work with your repository. Examples include:
@@ -121,6 +121,10 @@ so you can easily see the state of your files and work with your repository. Exa
 
 Others include MatLab, Atom, Sublime Text and Notepad++. The only common IDE with poor Git support is Spyder!
 :::
+
+Not everything belongs in version control, though.
+Git works best for **plain text** that changes incrementally - source code, scripts, configuration, and documentation.
+Large binary files (datasets, compiled binaries) bloat a repository, since Git stores a new copy each time they change; generated outputs are better reproduced from source than tracked directly; and secrets (passwords, API keys) should never be committed, since anything committed stays in the repository's history forever, even if you delete it in a later commit.
 
 ## Exercises
 

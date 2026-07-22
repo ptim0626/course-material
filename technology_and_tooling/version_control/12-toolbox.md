@@ -50,6 +50,10 @@ list` shows what you have stashed.) The stash is a great way to save your workin
 state in a pinch - for example when you need to quickly switch branches to fix
 something urgent.
 
+By default, `git stash` only stashes changes to **tracked** files - any new,
+untracked files are left behind in your working directory.
+To stash those too, use `git stash -u` (or `--include-untracked`).
+
 ## Labelling revisions with `git tag`
 
 Commit hashes are precise but unmemorable. **Tags** are human-readable labels for
@@ -70,8 +74,9 @@ commit since the release:
 git log v1.0.. --oneline
 ```
 
-If `..` is used with nothing after it, `HEAD` is assumed, so `v1.0..` means
-"everything after v1.0, up to now".
+If `..` is used with nothing after it, `HEAD` is assumed.
+This lists commits reachable from `HEAD` that are not part of `v1.0`.
+In a simple linear history, these are the commits made since the release.
 
 ## Staging part of a file: interactive add
 
@@ -116,14 +121,26 @@ undone - always run the dry run (`-n`) first. Useful flags:
 - `-x`: also remove files that are ignored by `.gitignore`.
 - `-X`: remove _only_ the files ignored by `.gitignore`, keeping other untracked files.
 
-For example, `git clean -fdX` clears out everything your `.gitignore` matches
-(such as generated `*.pdf` or `__pycache__` files) while leaving new source files
-you haven't committed yet untouched.
+For example, first preview with the dry-run equivalent:
+
+```bash
+git clean -ndX
+```
+
+This lists everything your `.gitignore` matches (such as generated `*.pdf` or
+`__pycache__` files) that would be removed, leaving new source files you haven't
+committed yet untouched. Once you're happy with the preview, swap `-n` for `-f`
+to actually delete them:
+
+```bash
+git clean -fdX
+```
 
 :::callout{variant="danger"}
 `git clean` permanently deletes files that Git isn't tracking, so they can't be
-recovered from history. Always preview with `git clean -n` before committing to
-`-f`.
+recovered from history. Omitting `-n` and running `git clean -f` (or any variant
+with `-f`) directly is dangerous - it's easy to lose files you meant to keep.
+Always preview with `-n` first.
 :::
 
 :::callout{variant="keypoints"}

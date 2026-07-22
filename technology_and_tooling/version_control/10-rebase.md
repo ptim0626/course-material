@@ -31,9 +31,10 @@ free to skip it for now and come back once those feel familiar.
 A `git merge` is only one of two ways to combine someone else's work (or the work
 on another branch) with your own. The other is called a **rebase**.
 
-- In a **merge**, Git adds a new _merge commit_ that brings the two branches
-  together. **Both histories are kept**, and the graph shows a divergence
-  followed by a convergence.
+- When **diverged branches are merged**, Git preserves their existing commits and
+  normally creates a new _merge commit_ that joins the two histories. (If one
+  branch hasn't moved on, Git can skip the merge commit entirely - a
+  **fast-forward**, covered below.)
 - In a **rebase**, Git instead asks:
 
   > What would I have needed to do to make my changes, if my colleague's changes
@@ -51,20 +52,13 @@ we were working, a colleague pushed a new commit to `main` (say, a docstring fix
 Our two branches have now **diverged**:
 
 ```bash
-git log --oneline --graph main
+git log --oneline --graph --all --decorate
 ```
 
 ```text
-* a1b2c3d Fix docstring on temperature conversion
-* fd30d36 Add rainfall processing placeholder
-```
-
-```bash
-git log --oneline --graph feature-rainfall
-```
-
-```text
-* 9e8f7a6 Add inches_to_mm conversion
+* a1b2c3d (main) Fix docstring on temperature conversion
+| * 9e8f7a6 (feature-rainfall) Add inches_to_mm conversion
+|/
 * fd30d36 Add rainfall processing placeholder
 ```
 
@@ -101,13 +95,6 @@ git log --oneline --graph feature-rainfall
 Notice that the hash for our "Add inches_to_mm conversion" commit has **changed**
 (from `9e8f7a6` to `7c6d5e4`): it is a brand new commit representing the same
 change, replayed on top of the colleague's work.
-
-If the other branch is on a remote, the equivalent of pulling _and_ rebasing in
-one step is:
-
-```bash
-git pull --rebase
-```
 
 ### Fast-forward merges
 
@@ -182,7 +169,8 @@ pick ea15f1a Finish rainfall parsing
 ```
 
 Save and close the editor. Git rebuilds the history, giving you the chance to
-write a combined commit message, and the trivial typo commits disappear:
+write a combined commit message, and the trivial changes no longer appear as
+separate commits:
 
 ```bash
 git log --oneline
@@ -197,6 +185,13 @@ cd27a04 Initial commit
 This is a great way to keep your history readable when you have lots of small
 "fix typo" commits.
 
+If your team uses GitHub's **squash and merge** to merge pull requests, it already
+squashes a whole branch into one commit on `main` for you, regardless of how messy
+the branch itself is.
+Interactive rebase is most worth reaching for on branches that won't be
+squash-merged, or when you want a few clean, meaningful commits rather than just
+one.
+
 ## Rebase: pros and cons
 
 Some people love the clean, apparently linear history that rebasing produces.
@@ -205,14 +200,19 @@ But **rebasing rewrites history**.
 
 :::callout{variant="danger"}
 
-## Never rebase shared history
+## Coordinate before rebasing shared history
 
-If you have already **pushed** your commits, or anyone else has based work on
-them, rebasing will rewrite commits that others already have - and things will
-get badly tangled.
+Rebasing creates new commits with new identities.
+If anyone else has fetched or based work on the commits you rewrite, their
+history will diverge from yours, and they'll have to reconcile it by hand once
+you force-push the rewritten branch.
 
-Only rebase commits that are still **private** to your local repository. If in
-doubt, just **merge**.
+This doesn't mean you can never rebase commits that have been pushed - rebasing
+your own private branch on a remote (one nobody else is using) is routine, and
+even a shared feature branch can be rebased if you coordinate with your
+collaborators first.
+The rule is: **don't rebase commits other people may be using without
+coordinating with them first.** If in doubt, just **merge**.
 :::
 
 :::callout{variant="keypoints"}
@@ -223,6 +223,6 @@ doubt, just **merge**.
 - Rebasing creates **new** commits (new hashes) - it rewrites history.
 - A **fast-forward** merge just moves a branch label when there's nothing to reconcile.
 - `git rebase -i` lets you **squash** several commits into one before sharing.
-- **Never** rebase commits you've already pushed or shared; if in doubt, merge.
+- Don't rebase commits other people may be using without coordinating with them first; if in doubt, merge.
 
 :::

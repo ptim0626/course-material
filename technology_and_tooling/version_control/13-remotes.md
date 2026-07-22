@@ -34,7 +34,7 @@ connection.
 
 | Centralised (cvs, svn)             | Distributed (git, mercurial)          |
 | ---------------------------------- | ------------------------------------- |
-| Server holds the history           | Every clone has the _full_ history    |
+| Server holds the history           | A normal clone has the _full_ history |
 | Your computer has one snapshot     | Many local branches, offline          |
 | Need the network to view history   | History always available locally      |
 | You commit to the remote server    | Users synchronise histories           |
@@ -74,10 +74,12 @@ git pull upstream main
 
 When you run `git fetch`, Git downloads the latest state of a remote **without**
 changing your working files, storing it under names like `origin/main` and
-`upstream/main`. You can then compare against those references:
+`upstream/main`. On its own, `git fetch` only updates the remote you'd push
+to by default (usually `origin`) - to update every remote you've added, use
+`git fetch --all`. You can then compare against those references:
 
 ```bash
-git fetch
+git fetch --all
 git log --oneline --left-right upstream/main...origin/main
 ```
 

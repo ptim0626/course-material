@@ -242,7 +242,9 @@ import temp_conversion
 ...
 ```
 
-By default, `restore` replaces the file with the version of it in the _staging area_. If you haven't used `git add`, that should be the same as the version in the last commit. But what if we already used `git add` on our incorrect version of a file, or we broke the file more than one commit ago?
+By default, `restore` replaces the file with the version of it in the _staging area_ (Git's own documentation often calls this the **index** - the two terms refer to the same thing).
+If you haven't used `git add`, that should be the same as the version in the last commit.
+But what if we already used `git add` on our incorrect version of a file, or we broke the file more than one commit ago?
 
 We can use `git checkout`, e.g.:
 
@@ -278,8 +280,8 @@ tends to change the way people organize their work.
 Consider a situation where all your code is in one file,
 and you fixed a bug in one section but accidentally introduced one elsewhere.
 
-You can't just roll back to fix one bug without un-fixing the other.
-However, if each section is in its own file, you can just roll back the section you broke!
+Cleanly undoing just the broken section is possible, but fiddly: you'd need an IDE with per-hunk revert support, or Git's own interactive tools (like `git checkout -p`) to pick out which lines to restore.
+If each section is in its own file, you can just roll back the one file you broke!
 
 ## Undoing a commit with `git revert`
 
@@ -317,8 +319,8 @@ already pushed and shared.
 :::callout
 If the change you're reverting overlaps with later edits, Git may not be able to
 work out how to undo it automatically and will report a **conflict**. If that
-happens, resolve it by hand exactly as you did for merge conflicts in the previous
-episode.
+happens, resolve it by hand exactly as you will for merge conflicts, covered in the
+next episode, [Remote Repositories](./06-remote).
 :::
 
 ## Exercises

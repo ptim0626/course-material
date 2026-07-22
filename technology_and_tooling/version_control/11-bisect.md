@@ -48,6 +48,10 @@ python -m pytest tests/test_conversion.py
 but now fails. We know it worked when we tagged `v1.0`, and it is broken at the
 current `HEAD`. Let's find the culprit.
 
+(A **tag** is just a human-readable label for a commit - `v1.0` here is assumed to
+already exist, perhaps marking a release. `git tag` itself is covered in the next
+module, [A Git Toolbox](./12-toolbox).)
+
 ### Bisecting manually
 
 We start a bisect session and mark the two endpoints:
@@ -63,14 +67,21 @@ Bisecting: 6 revisions left to test after this (roughly 3 steps)
 [a1b2c3d...] Add rainfall parsing
 ```
 
-Git checks out a commit half-way between `v1.0` and `HEAD`. We test it, and tell
-Git the result:
+Git checks out a commit half-way between `v1.0` and `HEAD`. We test it:
 
 ```bash
-python -m pytest tests/test_conversion.py   # passes?
-git bisect good
+python -m pytest tests/test_conversion.py
+```
 
-python -m pytest tests/test_conversion.py   # fails?
+If it passes, mark the current commit as good:
+
+```bash
+git bisect good
+```
+
+Or, if it fails, mark the current commit as bad:
+
+```bash
 git bisect bad
 ```
 
@@ -115,8 +126,8 @@ git bisect reset
 ```
 
 :::callout{variant="tip"}
-This is a strong argument for keeping a good test suite: with automated tests,
-finding _when_ a regression was introduced becomes a single command.
+This is a strong argument for keeping a good test suite: with automated tests and
+bisect, finding _when_ a regression was introduced becomes a much simpler process.
 :::
 
 :::callout{variant="keypoints"}
@@ -127,6 +138,6 @@ finding _when_ a regression was introduced becomes a single command.
 - Start with `git bisect start`, then mark one `good` and one `bad` commit.
 - Answer `good`/`bad` at each step, or automate the whole search with `git bisect run <command>`.
 - Finish with `git bisect reset` to return to where you started.
-- A reliable test suite turns finding a regression into a single command.
+- A reliable test suite makes finding a regression a much simpler process, especially combined with `git bisect run`.
 
 :::
