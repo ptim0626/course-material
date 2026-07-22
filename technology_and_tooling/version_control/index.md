@@ -12,16 +12,22 @@ files: [
   05-history.md,
   06-remote.md,
   07-branches.md,
-  08-ignore.md
+  08-ignore.md,
+  09-practice.md,
+  10-rebase.md,
+  11-bisect.md,
+  12-toolbox.md,
+  13-remotes.md
 ]
 learningOutcomes:
     - Learn how version control systems work.
     - Configure Git and Github.
     - Create or clone repositories.
     - Learn the modify-add-commit cycle.
-    - Compare files with previous versions.
+    - Compare files with previous versions, and undo mistakes.
     - Manage branches and resolve merge conflicts.
     - Exclude certain files from version control.
+    - (Optional) Explore advanced Git tools such as rebasing, bisecting and multiple remotes.
 attribution:
   - citation: >
         This material was originally taken from training materials developed by the
@@ -32,7 +38,9 @@ attribution:
     license: CC-BY-4.0
 summary: |
     This course introduces the basics of version control using the Git version control system.
-    We will learn how to setup Git, and use it to track changes in our code.
+    We will learn how to setup Git, and use it to track changes in our code. The final
+    modules are optional and marked "(Advanced)": newcomers can safely skip them
+    and return once the everyday Git workflow feels comfortable.
 
 ---
 
