@@ -1,5 +1,5 @@
 ---
-name: Collaborative Worklow
+name: Collaborative Workflow
 dependsOn: [software_project_management.collaboration.issues]
 tags: [github]
 learningOutcomes:
