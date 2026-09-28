@@ -104,8 +104,8 @@ Add, commit, and push these new files GitHub.
 
 Next, go to [Read the Docs](https://readthedocs.org/).
 
-- Log in with GitHub
-- Import a Project, and select your repository
+- Log in with GitHub (use the option _Log in using GitHub App_)
+- Click _Add project_, and select your repository
 - Follow the instructions, leaving everything as default
 
 You should then see your documentation building!
