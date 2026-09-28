@@ -100,7 +100,7 @@ You should now have a number of files added to your repository.
 Let's add one more: an empty file called anything you like, in the `docs/_static` directory.
 This is just so the directory itself gets added to the repository, and this is needed for the next step.
 
-Add, commit, and push these new files GitHub.
+Add, commit, and push these new files to GitHub.
 
 Next, go to [Read the Docs](https://readthedocs.org/).
 
